@@ -44,6 +44,9 @@ async function greet() {
   filter: drop-shadow(0 0 2em #249b73);
 }
 
+
+
+
 </style>
 <style>
 :root {
@@ -70,6 +73,15 @@ async function greet() {
   justify-content: center;
   text-align: center;
 }
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #535bf2;
+}
 
 .logo {
   height: 6em;
@@ -87,18 +99,10 @@ async function greet() {
   justify-content: center;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-
-a:hover {
-  color: #535bf2;
-}
 
 h1 {
   text-align: center;
+  margin-top: 2rem;
 }
 
 input,
@@ -119,31 +123,11 @@ button {
   cursor: pointer;
 }
 
-button:hover {
-  border-color: #396cd8;
-}
-button:active {
-  border-color: #396cd8;
-  background-color: #e8e8e8;
-}
-
-input,
-button {
-  outline: none;
-}
-
-#greet-input {
-  margin-right: 5px;
-}
 
 @media (prefers-color-scheme: dark) {
   :root {
     color: #f6f6f6;
     background-color: #2f2f2f;
-  }
-
-  a:hover {
-    color: #24c8db;
   }
 
   input,

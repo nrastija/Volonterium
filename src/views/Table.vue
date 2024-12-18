@@ -10,7 +10,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(korisnik, rowIndex) in korisnici" :key="rowIndex">
+          <tr v-for="(korisnik, rowIndex) in korisniciData" :key="rowIndex">
             <td v-for="(value, colIndex) in korisnik" :key="colIndex">
               {{ value }}
             </td>
@@ -25,7 +25,7 @@ export default {
   name: "DynamicTable",
   data() {
     return {
-      korisnici: [
+      korisniciData: [
         { id: 1, ime: "Ivan", prezime: "Ivić", email: "ivan.ivic@example.com" },
         { id: 2, ime: "Ana", prezime: "Anić", email: "ana.anic@example.com" },
         { id: 3, ime: "Marko", prezime: "Markić", email: "marko.markic@example.com" },
@@ -34,13 +34,13 @@ export default {
   },
   computed: {
     columnKeys() {
-      return this.korisnici.length > 0 ? Object.keys(this.korisnici[0]) : [];
+      return this.korisniciData.length > 0 ? Object.keys(this.korisniciData[0]) : [];
     },
   },
 };
 </script>
 
-<style>
+<style >
 .table-container {
   margin: 2rem auto;
   max-width: 600px;
