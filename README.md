@@ -1,2 +1,2 @@
 # Volonterium
-Aplikacija za upravljanje volontiranjem. Kreirana u Tauri (Rust backend + Vue.js frontend) uz primjenu npm paketa.
+Volunteer management application. Created in Taura (Rust backend + Vue.js frontend) using the npm package. 
