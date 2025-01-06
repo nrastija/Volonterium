@@ -4,13 +4,13 @@
       <div class="dropdown">
         <button class="dropdown-btn">Odaberite unos</button>
         <div class="dropdown-content">
-          <router-link to="/unos/drzava" class="dropdown-item">Unos Država</router-link>
-          <router-link to="/unos/grad" class="dropdown-item">Unos Gradova</router-link>
-          <router-link to="/unos/lokacija" class="dropdown-item">Unos Lokacija</router-link>
-          <router-link to="/unos/organizator" class="dropdown-item">Unos Organizatora</router-link>
-          <router-link to="/unos/dogadaj" class="dropdown-item">Unos Događaja</router-link>
-          <router-link to="/unos/volonter" class="dropdown-item">Unos Volontera</router-link>
-          <router-link to="/unos/vjestina" class="dropdown-item">Unos Vještina</router-link>
+          <router-link to="/forms/drzava" class="dropdown-item">Unos Država</router-link>
+          <router-link to="/forms/grad" class="dropdown-item">Unos Gradova</router-link>
+          <router-link to="/forms/lokacija" class="dropdown-item">Unos Lokacija</router-link>
+          <router-link to="/forms/organizator" class="dropdown-item">Unos Organizatora</router-link>
+          <router-link to="/forms/dogadaj" class="dropdown-item">Unos Događaja</router-link>
+          <router-link to="/forms/volonter" class="dropdown-item">Unos Volontera</router-link>
+          <router-link to="/forms/vjestina" class="dropdown-item">Unos Vještina</router-link>
         </div>
       </div>
     </div>
