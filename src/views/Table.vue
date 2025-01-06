@@ -1,6 +1,6 @@
 <template>
     <div class="table-container">
-      <h1>Tablica Korisnika</h1>
+      <h1 class="start-title">Tablica Korisnika</h1>
       <div class="highlightMain">
       <table>
         <thead>

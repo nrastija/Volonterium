@@ -3,7 +3,7 @@
 <main class="container">
 
   <div class ="highlightMain">
-  <h1 class="startTitle">Volonterium</h1>  
+  <h1 class="start-title">Volonterium</h1>  
   <p>Volonterium je namijenjen kao aplikacija za upravljanje volontiranjem u sklopu projekta za predmet Baze Podataka 2</p>
   
   <p>Projektni plan i ideja za rješenje:</p>
@@ -38,15 +38,6 @@
   -webkit-text-size-adjust: 100%;
 }
 
-.startTitle{
-  margin: auto;
-  margin-bottom: 20px;
-  &:hover{
-    color: #535bf2;
-    transform: scale(1.1);
-  }
-
-}
 .container {
   margin: 0;
   padding-top: 10vh;

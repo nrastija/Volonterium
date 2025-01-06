@@ -6,6 +6,7 @@
     <nav>
       <router-link class="router" to="/">Početna</router-link>
       <router-link class="router" to="/table">Tablica</router-link>
+      <router-link class="router" to="/forms">Izbornik formi</router-link>
     </nav>
     <router-view></router-view>
   </div>
@@ -20,6 +21,32 @@ export default {
   },
 };
 </script>
+
+<style>
+
+.start-title{
+  margin: auto;
+  margin-bottom: 20px;
+
+  &:hover{
+    color: #535bf2;
+    transform: scale(1.1);
+}
+
+
+.container {
+  margin: 0;
+  padding-top: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+
+}
+
+</style>
 
 <style scoped>
 
