@@ -13,25 +13,16 @@ async function greet() {
 
 <template>
 <main class="container">
-    
-    <div class="row">
-      <a href="https://vitejs.dev" target="_blank">
-        <img src="/vite.svg" class="logo vite" alt="Vite logo" />
-      </a>
-      <a href="https://tauri.app" target="_blank">
-        <img src="/tauri.svg" class="logo tauri" alt="Tauri logo" />
-      </a>
-      <a href="https://vuejs.org/" target="_blank">
-        <img src="./assets/vue.svg" class="logo vue" alt="Vue logo"  />
-      </a>
-    </div>
-    <p>Volonterium je namijenjen kao aplikacija za upravljanje volontiranjem u sklopu projekta za predmet Baze Podataka 2</p>
 
-    <form class="row" @submit.prevent="greet">
-      <input id="greet-input" v-model="name" placeholder="Enter a name..." />
-      <button type="submit">Greet</button>
-    </form>
-    <p>{{ greetMsg }}</p>
+  <h1 class="startTitle">Volonterium</h1>  
+  <p>Volonterium je namijenjen kao aplikacija za upravljanje volontiranjem u sklopu projekta za predmet Baze Podataka 2</p>
+
+  <p>Projektni plan i ideja za rješenje:</p>
+  <ul>
+    <li></li>
+  </ul>
+
+
   </main>
 </template>
 
@@ -65,6 +56,15 @@ async function greet() {
   -webkit-text-size-adjust: 100%;
 }
 
+.startTitle{
+  margin: auto;
+  margin-bottom: 20px;
+  &:hover{
+    color: #535bf2;
+    transform: scale(1.1);
+  }
+
+}
 .container {
   margin: 0;
   padding-top: 10vh;
