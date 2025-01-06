@@ -50,7 +50,6 @@
   }
   
   .dropdown-content {
-    display: none; 
     position: absolute;
     background-color: white;
     min-width: 200px;
@@ -58,7 +57,17 @@
     border-radius: 8px;
     z-index: 1;
     margin-top: 10px;
+
+    opacity: 0; /* Element je nevidljiv */
+    visibility: hidden; /* Sprečava interakciju */
+    transition: opacity 0.5s ease, visibility 0.5s ease; /* Glatki prelaz */
   }
+
+  .dropdown:hover .dropdown-content {
+    opacity: 1; /* Element postaje vidljiv */
+    visibility: visible; /* Omogućava interakciju */
+  }
+
 
   .dropdown-item {
     color: #535bf2;
@@ -80,8 +89,6 @@
     color: #4042b8;
   }
   
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
+
   </style>
   

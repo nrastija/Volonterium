@@ -33,7 +33,6 @@ export default {
     transform: scale(1.1);
 }
 
-
 .container {
   margin: 0;
   padding-top: 10vh;
@@ -42,7 +41,6 @@ export default {
   justify-content: center;
   text-align: center;
 }
-
 
 }
 
@@ -95,7 +93,9 @@ nav {
   text-decoration: inherit;
   font-size: 1.3rem;
   color: white;
-  transition:  0.75s; 
+  transition:  0.75s;
+  margin-left: 2rem;
+  margin-right: 2rem; 
 }
 
 .router:hover {
