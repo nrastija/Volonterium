@@ -3,8 +3,8 @@ import Home from '../views/Home.vue';
 import Table from '../views/Table.vue';
 
 const routes = [
-  { path: '/', name: 'Home', component: Home },
-  { path: '/table', name: 'Table', component: Table },
+  { path: '/', name: 'Home', component: Home, meta: { title: "Dobrodošli u Volonterium!" }},
+  { path: '/table', name: 'Table', component: Table, meta: { title: "Tablica" } },
 ];
 
 const router = createRouter({

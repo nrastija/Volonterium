@@ -1,6 +1,7 @@
 <template>
     <div class="table-container">
       <h1>Tablica Korisnika</h1>
+      <div class="highlightMain">
       <table>
         <thead>
           <tr>
@@ -17,6 +18,7 @@
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
   </template>
   
@@ -40,9 +42,10 @@ export default {
 };
 </script>
 
-<style >
+<style scoped>
 .table-container {
   margin: 2rem auto;
+  margin-top: 3rem;
   max-width: 600px;
   font-family: Arial, sans-serif;
 }
@@ -50,6 +53,13 @@ export default {
 table {
   width: 100%;
   border-collapse: collapse;
+}
+
+.highlightMain{
+  background-color: rgb(25, 81, 88);
+  padding: 30px;
+  margin: auto;
+  border-radius: 30px;
 }
 
 th, td {

@@ -1,44 +1,26 @@
-<script setup>
-import { ref } from "vue";
-import { invoke } from "@tauri-apps/api/core";
-
-const greetMsg = ref("");
-const name = ref("");
-
-async function greet() {
-  // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-  greetMsg.value = await invoke("greet", { name: name.value });
-}
-</script>
 
 <template>
 <main class="container">
 
+  <div class ="highlightMain">
   <h1 class="startTitle">Volonterium</h1>  
   <p>Volonterium je namijenjen kao aplikacija za upravljanje volontiranjem u sklopu projekta za predmet Baze Podataka 2</p>
-
+  
   <p>Projektni plan i ideja za rješenje:</p>
-  <ul>
-    <li></li>
+  <ul class="projectList">
+    <li>Naziv teme projekta: Upravljanje posudbama i inventarom u knjižnici</li>
+    <br>
+    <li>Predviđeni Alati:</li>
+    <li>1.	Konceptualno modeliranje ERA modela: ERDPlus <a href="https://erdplus.com/">[ErdPlus]</a></li>
+    <li>2.	SUBP: Beekeper Studio, baza SQLite <a href="https://www.beekeeperstudio.io/">[Beekeper Studio]</a></li>
+    <li>3.	Programski alat za sučelje: Tauri, Rust backend + Vue.js frontend <a href="https://v2.tauri.app/">[Tauri]</a></li>
   </ul>
-
+  </div>
 
   </main>
 </template>
 
-<style scoped>
-.logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
-}
 
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #249b73);
-}
-
-
-
-
-</style>
 <style>
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
@@ -73,6 +55,14 @@ async function greet() {
   justify-content: center;
   text-align: center;
 }
+
+.highlightMain{
+  background-color: rgb(25, 81, 88);
+  padding: 30px;
+  margin: auto;
+  border-radius: 30px;
+  
+}
 a {
   font-weight: 500;
   color: #646cff;
@@ -82,23 +72,6 @@ a {
 a:hover {
   color: #535bf2;
 }
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: 0.75s;
-}
-
-.logo.tauri:hover {
-  filter: drop-shadow(0 0 2em #24c8db);
-}
-
-.row {
-  display: flex;
-  justify-content: center;
-}
-
 
 h1 {
   text-align: center;
@@ -138,6 +111,17 @@ button {
   button:active {
     background-color: #0f0f0f69;
   }
+}
+
+.projectList{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 
 </style>
