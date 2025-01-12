@@ -1,16 +1,26 @@
 <template>
     <div class="menu-container">
-      <h1 class="start-title">Izbornik za Unos</h1>
+      <h1 class="start-title">Unos jednostavnih formi</h1>
       <div class="dropdown">
-        <button class="dropdown-btn">Odaberite unos</button>
+        <button class="dropdown-btn">Jednostavne forme</button>
         <div class="dropdown-content">
           <router-link to="/forms/drzava" class="dropdown-item">Unos Država</router-link>
-          <router-link to="/forms/grad" class="dropdown-item">Unos Gradova</router-link>
-          <router-link to="/forms/lokacija" class="dropdown-item">Unos Lokacija</router-link>
           <router-link to="/forms/organizator" class="dropdown-item">Unos Organizatora</router-link>
           <router-link to="/forms/dogadaj" class="dropdown-item">Unos Događaja</router-link>
           <router-link to="/forms/volonter" class="dropdown-item">Unos Volontera</router-link>
           <router-link to="/forms/vjestina" class="dropdown-item">Unos Vještina</router-link>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-container">
+      <h1 class="start-title">Unos složenih formi</h1>
+      <div class="dropdown">
+        <button class="dropdown-btn">Složene forme</button>
+        <div class="dropdown-content">
+          <router-link to="/forms/grad" class="dropdown-item">Unos Gradova</router-link>
+          <router-link to="/forms/lokacija" class="dropdown-item">Unos Lokacija</router-link>
+
         </div>
       </div>
     </div>
