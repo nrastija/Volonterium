@@ -54,7 +54,7 @@
             Logika za unos baze
             */
 
-            alert("Vještina " + this.naziv + " je uspješno unesena u bazu podataka!");
+            alert("Grad " + this.naziv + " je uspješno unesen u bazu podataka!");
       },
 
       validirajUnos(opis) {

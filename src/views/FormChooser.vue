@@ -105,7 +105,7 @@
 <style>
 .input-form{
     margin: 0 auto;
-    width: 30%;
+    width: 40%;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
@@ -117,20 +117,43 @@
     display: flex;
     flex-direction: column;
     text-align: left;
-    align-items: center;
-    justify-content: center;
+    gap: 1rem;
 }
 
 .start-title{
     margin-top: 3rem;
+    text-align: center;
 }
 
 .form-group{
     margin: 10px 0;
-    
-    input{
-        margin-left: 30px;
-    }
+    flex-direction: column;
+    gap: 0.5rem;
 }
+
+.form-group input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+button:hover {
+    background-color: #444;
+}
+
 </style>
   

@@ -19,7 +19,7 @@
             <input type="text" class="form-control" id="telefon" v-model="telefon">
         </div>
 
-        <button type="submit" @click="SaveVolonter">Spremi državu u BP</button>
+        <button type="submit" @click="SaveVolonter">Spremi volontera u BP</button>
     </form>
 </template>
 

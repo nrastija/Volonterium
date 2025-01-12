@@ -11,7 +11,7 @@
             <input type="text" class="form-control" id="opis" v-model="opis">
         </div>
 
-        <button type="submit" @click="SaveVjestina">Spremi državu u BP</button>
+        <button type="submit" @click="SaveVjestina">Spremi vještinu u BP</button>
     </form>
 </template>
 
