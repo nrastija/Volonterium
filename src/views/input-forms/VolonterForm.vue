@@ -38,7 +38,7 @@ export default {
     },
     methods: {
         SaveVolonter() {
-            datum_pridruzivanja = new Date();
+            
 
             // Validacija opisa za sigurnost   
             if (!this.validirajUnos(this.ime) || !this.validirajUnos(this.prezime) || !this.validirajUnos(this.mail) || !this.validirajUnos(this.telefon)) { 
@@ -46,12 +46,13 @@ export default {
                 return;
             }
 
+            const datum_pridruzivanja = new Date().getTime();
             
             /*
             Logika za unos baze
             */
 
-            alert("Vještina " + this.naziv + " je uspješno unesena u bazu podataka!");
+            alert("Volonter "+ this.ime + " " + this.prezime + " je uspješno unesen u bazu podataka!");
         },
 
         validirajUnos(opis) {
