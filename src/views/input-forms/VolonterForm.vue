@@ -38,7 +38,10 @@ export default {
     },
     methods: {
         SaveVolonter() {
-            
+            if (!this.ime || !this.prezime || !this.mail) {
+                alert("Molimo popunite sva obavezna polja!");
+                return;
+            }
 
             // Validacija opisa za sigurnost   
             if (!this.validirajUnos(this.ime) || !this.validirajUnos(this.prezime) || !this.validirajUnos(this.mail) || !this.validirajUnos(this.telefon)) { 

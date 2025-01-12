@@ -39,7 +39,11 @@ export default {
     },
     methods: {
         SaveOrganizator() {
-            
+            if (!this.naziv || !this.kontakt_osoba || !this.telefon || !this.mail) {
+                alert("Molimo popunite sva obavezna polja!");
+                return;
+            }
+
             // Validacija opisa za sigurnost   
             if (!this.validirajUnos(this.naziv) || !this.validirajUnos(this.kontakt_osoba) || !this.validirajUnos(this.mail) || !this.validirajUnos(this.telefon)) { 
                 alert("Atribut sadrži nedozvoljene znakove! Molimo pokušajte ponovo.");

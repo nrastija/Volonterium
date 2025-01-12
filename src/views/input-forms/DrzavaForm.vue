@@ -21,7 +21,7 @@ export default {
     },
     methods: {
         SaveDrzava() {
-            if (this.naziv === "") {
+            if (!this.naziv) {
                 alert("Molimo unesite naziv države!");
                 return;
             }

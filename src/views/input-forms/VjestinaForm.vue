@@ -27,6 +27,11 @@ export default {
     },
     methods: {
         SaveVjestina() {
+            if (!this.naziv) {
+                alert("Molimo unesite naziv vještine!");
+                return;
+            }
+
             // Validacija opisa za sigurnost   
             if (!this.validirajUnos(this.opis) || !this.validirajUnos(this.naziv)) {
                 alert("Atribut sadrži nedozvoljene znakove! Molimo pokušajte ponovo.");
