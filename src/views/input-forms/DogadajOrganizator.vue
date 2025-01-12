@@ -35,7 +35,7 @@
             </select>
         </div>
 
-        <button type="submit" class="btn-submit" @click="saveDogadajOrganizator">Spremi organizatora u BP</button>
+        <button type="submit" class="btn-submit" @click="SaveDogadajOrganizator">Spremi organizatora dogadaja u BP</button>
     </form>
 </template>
 

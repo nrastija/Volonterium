@@ -1,5 +1,5 @@
 <template>
-    <h1 class="start-title"> Forma za unošenje orgnazatora volonterskih događaja u bazu podataka</h1>
+    <h1 class="start-title"> Forma za unošenje organizatora volonterskih događaja u bazu podataka</h1>
 
     <form class = "input-form">
         <div class="form-group">
