@@ -9,11 +9,11 @@ import OrganizatorForm from '../views/input-forms/OrganizatorForm.vue';
 import DrzavaForm from '../views/input-forms/DrzavaForm.vue';
 import VolonterForm from '../views/input-forms/VolonterForm.vue';
 import VjestinaForm from '../views/input-forms/VjestinaForm.vue';
-import DogadajOrganizator from '../views/input-forms/DogadajOrganizator.vue';
-import VolonterVjestina from '../views/input-forms/VolonterVjestina.vue';
+import DogadajOrganizator from '../views/input-forms/DogadajOrganizatorForm.vue';
+import VolonterVjestina from '../views/input-forms/VolonterVjestinaForm.vue';
 import Error404 from '../views/errors/Error404.vue';
-import VolonterDogadaj from '../views/input-forms/VolonterDogadaj.vue';
-import PovratnaInformacija from '../views/input-forms/PovratnaInformacija.vue';
+import VolonterDogadaj from '../views/input-forms/VolonterDogadajForm.vue';
+import PovratnaInformacija from '../views/input-forms/PovratnaInformacijaForm.vue';
 import TableChooser from '../views/TableChooser.vue';
 
 const routes = [
