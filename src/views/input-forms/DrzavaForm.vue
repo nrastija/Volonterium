@@ -7,7 +7,7 @@
             <input type="text" class="form-control" id="naziv" v-model="naziv">
         </div>
 
-        <button type="submit" @click="saveDrzava">Spremi državu u BP</button>
+        <button type="submit" @click="SaveDrzava">Spremi državu u BP</button>
     </form>
 </template>
 
@@ -20,7 +20,7 @@ export default {
         };
     },
     methods: {
-        saveDrzava() {
+        SaveDrzava() {
             if (this.naziv === "") {
                 alert("Molimo unesite naziv države!");
                 return;
