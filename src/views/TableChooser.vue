@@ -1,35 +1,36 @@
 <template>
     <div class="menu-container">
-      <h1 class="start-title">Unos jednostavnih formi</h1>
+      <h1 class="start-title">Tablice s jednim primarnim ključem</h1>
       <div class="dropdown">
-        <button class="dropdown-btn">Jednostavne forme</button>
+        <button class="dropdown-btn">Tablice</button>
         <div class="dropdown-content">
-          <router-link to="/forms/drzava" class="dropdown-item">Unos Država</router-link>
-          <router-link to="/forms/organizator" class="dropdown-item">Unos Organizatora</router-link>
-          <router-link to="/forms/dogadaj" class="dropdown-item">Unos Događaja</router-link>
-          <router-link to="/forms/volonter" class="dropdown-item">Unos Volontera</router-link>
-          <router-link to="/forms/vjestina" class="dropdown-item">Unos Vještina</router-link>
+
         </div>
       </div>
     </div>
 
     <div class="menu-container">
-      <h1 class="start-title">Unos složenih formi</h1>
+      <h1 class="start-title">Tablice s dvokomponentnim primaranim ključem</h1>
       <div class="dropdown">
-        <button class="dropdown-btn">Složene forme</button>
+        <button class="dropdown-btn">Tablice</button>
         <div class="dropdown-content">
-          <router-link to="/forms/grad" class="dropdown-item">Unos Gradova</router-link>
-          <router-link to="/forms/lokacija" class="dropdown-item">Unos Lokacija</router-link>
-          <router-link to="/forms/dogadaj-organizator" class="dropdown-item">Unos Organizatora Događaja</router-link>
-          <router-link to="/forms/volonter-vjestina" class="dropdown-item">Unos Vještina Volontera</router-link>
-          <router-link to="/forms/volonter-dogadaj" class="dropdown-item">Unos Volontera na Događaju</router-link>
-          <router-link to="/forms/povratna-informacija" class="dropdown-item">Unos Povratne Informacije</router-link>
+
         </div>
       </div>
     </div>
-  </template>
-  
-  <style scoped>
+
+    <div class="menu-container">
+      <h1 class="start-title">Tablice s troduplim primarnim ključem</h1>
+      <div class="dropdown">
+        <button class="dropdown-btn">Tablice</button>
+        <div class="dropdown-content">
+
+        </div>
+      </div>
+    </div>
+</template>
+
+<style scoped>
   .menu-container {
     display: flex;
     flex-direction: column;
@@ -77,11 +78,11 @@
 
     opacity: 0; 
     visibility: hidden; 
-    transition: opacity 0.5s ease, visibility 0.5s ease; 
+    transition: opacity 0.5s ease, visibility 0.5s ease;
   }
 
   .dropdown:hover .dropdown-content {
-    opacity: 1; 
+    opacity: 1;
     visibility: visible; 
   }
 

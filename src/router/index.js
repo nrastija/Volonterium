@@ -14,11 +14,13 @@ import VolonterVjestina from '../views/input-forms/VolonterVjestina.vue';
 import Error404 from '../views/errors/Error404.vue';
 import VolonterDogadaj from '../views/input-forms/VolonterDogadaj.vue';
 import PovratnaInformacija from '../views/input-forms/PovratnaInformacija.vue';
+import TableChooser from '../views/TableChooser.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: Home, meta: { title: "Dobrodošli u Volonterium!" }},
   { path: '/table', name: 'Table', component: Table, meta: { title: "Tablica" } },
   { path: '/forms', name: 'Forms', component: FormChooser, meta: { title: "Izbornik formi" } },
+  { path: '/tables', name: 'Tables', component: TableChooser, meta: { title: "Izbornik tablica" } },
 
   //Rute za forme
   { path: '/forms/drzava', name: 'DrzavaForm', component: DrzavaForm, meta: { title: "Forma za unos države" } },
