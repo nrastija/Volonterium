@@ -1,10 +1,10 @@
 <template>
-    <h1 class="start-title"> Forma za unošenje države u bazu podataka</h1>
+    <h1 class="start-title"> Forma za unošenje vještine u bazu podataka</h1>
 
     <form class = "input-form">
         <div class="form-group">
             <label for="Naziv">Naziv vještine:</label>
-            <input type="text" class="form-control" id="naziv" v-model="naziv">
+            <input type="text" class="form-control" id="naziv" v-model="naziv" required>
         </div>
         <div class="form-group">
             <label for="Opis">Opis (opcionalno):</label>
@@ -27,14 +27,9 @@ export default {
     },
     methods: {
         SaveVjestina() {
-            if (this.naziv === "") {
-                alert("Molimo unesite naziv vještine!");
-                return;
-            }
-
-            // Validacija opisa za sigurnost    
-            if (!this.validirajOpis(this.opis)) {
-                alert("Opis sadrži nedozvoljene znakove! Molimo pokušajte ponovo.");
+            // Validacija opisa za sigurnost   
+            if (!this.validirajUnos(this.opis) || !this.validirajUnos(this.naziv)) {
+                alert("Atribut sadrži nedozvoljene znakove! Molimo pokušajte ponovo.");
                 return;
             }
 
@@ -54,36 +49,3 @@ export default {
 };
 
 </script>
-
-<style scoped>
-.input-form{
-    margin: 0 auto;
-    width: 30%;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    margin-top: 20px;
-
-    background-color: rgb(25, 81, 88);
-    border-radius: 30px;
-
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    align-items: center;
-    justify-content: center;
-}
-
-
-h1{
-    margin-top: 3rem;
-}
-
-.form-group{
-    margin: 10px 0;
-    
-    input{
-        margin-left: 30px;
-    }
-}
-</style>
