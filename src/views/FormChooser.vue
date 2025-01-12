@@ -20,7 +20,7 @@
         <div class="dropdown-content">
           <router-link to="/forms/grad" class="dropdown-item">Unos Gradova</router-link>
           <router-link to="/forms/lokacija" class="dropdown-item">Unos Lokacija</router-link>
-
+          <router-link to="/forms/dogadaj-organizator" class="dropdown-item">Unos Organizatora Događaja</router-link>
         </div>
       </div>
     </div>

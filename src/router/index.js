@@ -9,6 +9,7 @@ import OrganizatorForm from '../views/input-forms/OrganizatorForm.vue';
 import DrzavaForm from '../views/input-forms/DrzavaForm.vue';
 import VolonterForm from '../views/input-forms/VolonterForm.vue';
 import VjestinaForm from '../views/input-forms/VjestinaForm.vue';
+import DogadajOrganizator from '../views/input-forms/DogadajOrganizator.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: Home, meta: { title: "Dobrodošli u Volonterium!" }},
@@ -23,6 +24,9 @@ const routes = [
   { path: '/forms/dogadaj', name: 'DogadajForm', component: DogadajForm, meta: { title: "Forma za unos događaja" } },
   { path: '/forms/volonter', name: 'VolonterForm', component: VolonterForm, meta: { title: "Forma za unos volontera" } },
   { path: '/forms/vjestina', name: 'VjestinaForm', component: VjestinaForm, meta: { title: "Forma za unos vještine" } },
+  
+  //Ruta za slozene forme
+  { path: '/forms/dogadaj-organizator', name: 'DogadajOrganizatorForm', component: DogadajOrganizator, meta: { title: "Forma za unos organizatora događaja" } },
 ];
 
 const router = createRouter({
