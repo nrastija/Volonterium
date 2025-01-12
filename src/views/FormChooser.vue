@@ -22,6 +22,8 @@
           <router-link to="/forms/lokacija" class="dropdown-item">Unos Lokacija</router-link>
           <router-link to="/forms/dogadaj-organizator" class="dropdown-item">Unos Organizatora Događaja</router-link>
           <router-link to="/forms/volonter-vjestina" class="dropdown-item">Unos Vještina Volontera</router-link>
+          <router-link to="/forms/volonter-dogadaj" class="dropdown-item">Unos Volontera na Događaju</router-link>
+          <router-link to="/forms/povratna-informacija" class="dropdown-item">Unos Povratne Informacije</router-link>
         </div>
       </div>
     </div>

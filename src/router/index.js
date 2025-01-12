@@ -12,6 +12,8 @@ import VjestinaForm from '../views/input-forms/VjestinaForm.vue';
 import DogadajOrganizator from '../views/input-forms/DogadajOrganizator.vue';
 import VolonterVjestina from '../views/input-forms/VolonterVjestina.vue';
 import Error404 from '../views/errors/Error404.vue';
+import VolonterDogadaj from '../views/input-forms/VolonterDogadaj.vue';
+import PovratnaInformacija from '../views/input-forms/PovratnaInformacija.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: Home, meta: { title: "Dobrodošli u Volonterium!" }},
@@ -30,7 +32,8 @@ const routes = [
   //Ruta za slozene forme
   { path: '/forms/dogadaj-organizator', name: 'DogadajOrganizatorForm', component: DogadajOrganizator, meta: { title: "Forma za unos organizatora događaja" } },
   { path: '/forms/volonter-vjestina', name: 'VolonterVjestinaForm', component: VolonterVjestina, meta: { title: "Forma za unos vještine volontera" } },
-  
+  { path: '/forms/volonter-dogadaj', name: 'VolonterDogadajForm', component: VolonterDogadaj, meta: { title: "Forma za povezivanje volontera s događajem na kojem sudjeluje" } },
+  { path: '/forms/povratna-informacija', name: 'PovratnaInformacijaForm', component: PovratnaInformacija, meta: { title: "Forma za unos povratne informacije" } },
 
   //Hvatanje 404
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: Error404, meta: { title: "404 - Stranica nije pronađena" } },

@@ -1,5 +1,5 @@
 <template>
-    <h1 class="start-title">Forma za unos podataka o volonteru i događaju</h1>
+    <h1 class="start-title">Forma za unos povratnih informacija</h1>
 
     <form class="input-form">
         <div class="form-group">
@@ -21,16 +21,16 @@
         </div>
 
         <div class="form-group">
-            <label for="broj_sati">Broj sati:</label>
-            <input type="number" class="form-control" id="broj_sati" v-model="broj_sati" required />
+            <label for="ocjena">Ocjena (1-5):</label>
+            <input type="number" class="form-control" id="ocjena" v-model="ocjena" min="1" max="5" required />
         </div>
 
         <div class="form-group">
-            <label for="status">Status:</label>
-            <input type="text" class="form-control" id="status" v-model="status" required />
+            <label for="komentar">Komentar:</label>
+            <textarea class="form-control" id="komentar" v-model="komentar"></textarea>
         </div>
 
-        <button type="submit" @click.prevent="saveVolonterDogadaj">Spremi podatke u BP</button>
+        <button type="submit" @click.prevent="savePovratnaInformacija">Spremi povratnu informaciju</button>
     </form>
 </template>
 
@@ -40,8 +40,8 @@ export default {
     return {
       id_volonter: null,
       id_dogadaj: null,
-      broj_sati: null,
-      status: "",
+      ocjena: null,
+      komentar: "",
       volonteri: [],
       dogadaji: [],
     };
@@ -54,16 +54,19 @@ export default {
       this.volonteri = await (await fetch("/api/volonteri")).json();
       this.dogadaji = await (await fetch("/api/dogadaji")).json();
     },
-    async saveVolonterDogadaj() {
-      if (!this.id_volonter || !this.id_dogadaj || !this.broj_sati || !this.status) {
-        alert("Molimo unesite sva polja!");
+    async savePovratnaInformacija() {
+      if (!this.id_volonter || !this.id_dogadaj || !this.ocjena) {
+        alert("Molimo unesite obavezna polja!");
+        return;
+      }
+    
+      if (this.ocjena < 1 || this.ocjena > 5) {
+        alert("Ocjena mora biti između 1 i 5!");
         return;
       }
 
-
       // Validacija opisa za sigurnost   
-      if (!this.validirajUnos(this.id_volonter) || !this.validirajUnos(this.id_dogadaj) || 
-            !this.validirajUnos(this.broj_sati) || !this.validirajUnos(this.status)) {
+      if (!this.validirajUnos(this.id_volonter) || !this.validirajUnos(this.id_dogadaj) ||  !this.validirajUnos(this.ocjena)) {
             alert("Atribut sadrži nedozvoljene znakove! Molimo pokušajte ponovo.");
             return;
         }
@@ -74,7 +77,6 @@ export default {
 
         alert("Uspješno povezani volonter i događaj u bazi!");
     },
-    
     validirajOpis(opis) {
         // Regex za zabranjene znakove
         const zabranjeniZnakovi = /['"%;(){}<>]/;
