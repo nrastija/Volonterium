@@ -15,6 +15,9 @@ import Error404 from '../views/errors/Error404.vue';
 import VolonterDogadaj from '../views/input-forms/VolonterDogadajForm.vue';
 import PovratnaInformacija from '../views/input-forms/PovratnaInformacijaForm.vue';
 import TableChooser from '../views/TableChooser.vue';
+import GradTable from '../views/table-views/GradTable.vue';
+import { path } from '@tauri-apps/api';
+import LokacijaTable from '../views/table-views/LokacijaTable.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: Home, meta: { title: "Dobrodošli u Volonterium!" }},
@@ -22,16 +25,31 @@ const routes = [
   { path: '/forms', name: 'Forms', component: FormChooser, meta: { title: "Izbornik formi" } },
   { path: '/tables', name: 'Tables', component: TableChooser, meta: { title: "Izbornik tablica" } },
 
+  //Rute za tablice
+  { path: '/tables/drzava', name: 'DrzavaTable', component: Table, meta: { title: "Tablica država" } },
+  { path: '/tables/organizator', name: 'OrganizatorTable', component: Table, meta: { title: "Tablica organizatora" } },
+  { path: '/tables/dogadaj', name: 'DogadajTable', component: Table, meta: { title: "Tablica događaja" } },
+  { path: '/tables/volonter', name: 'VolonterTable', component: Table, meta: { title: "Tablica volontera" } },
+  { path: '/tables/vjestina', name: 'VjestinaTable', component: Table, meta: { title: "Tablica vještina" } },
+
+  //Rute za slozene tablice
+  { path: '/tables/grad', name: 'GradTable', component: GradTable, meta: { title: "Tablica gradova" } },
+  { path: '/tables/lokacija', name: 'LokacijaTable', component: LokacijaTable, meta: { title: "Tablica lokacija" } },
+  { path: '/tables/dogadaj-organizator', name: 'DogadajOrganizatorTable', component: Table, meta: { title: "Tablica organizatora događaja" } },
+  { path: '/tables/volonter-vjestina', name: 'VolonterVjestinaTable', component: Table, meta: { title: "Tablica vještina volontera" } },
+  { path: '/tables/dogadaj-volonter', name: 'DogadajVolonterTable', component: Table, meta: { title: "Tablica volontera na događajima" } },
+  { path: '/tables/povratna-informacija', name: 'PovratnaInformacijaTable', component: Table, meta: { title: "Tablica povratnih informacija" } },
+
   //Rute za forme
   { path: '/forms/drzava', name: 'DrzavaForm', component: DrzavaForm, meta: { title: "Forma za unos države" } },
-  { path: '/forms/grad', name: 'GradForm', component: GradForm, meta: { title: "Forma za unos grada" } },
-  { path: '/forms/lokacija', name: 'LokacijaForm', component: LokacijaForm, meta: { title: "Forma za unos lokacije" } },
   { path: '/forms/organizator', name: 'OrganizatorForm', component: OrganizatorForm, meta: { title: "Forma za unos organizatora" } },
   { path: '/forms/dogadaj', name: 'DogadajForm', component: DogadajForm, meta: { title: "Forma za unos događaja" } },
   { path: '/forms/volonter', name: 'VolonterForm', component: VolonterForm, meta: { title: "Forma za unos volontera" } },
   { path: '/forms/vjestina', name: 'VjestinaForm', component: VjestinaForm, meta: { title: "Forma za unos vještine" } },
   
   //Ruta za slozene forme
+  { path: '/forms/lokacija', name: 'LokacijaForm', component: LokacijaForm, meta: { title: "Forma za unos lokacije" } },
+  { path: '/forms/grad', name: 'GradForm', component: GradForm, meta: { title: "Forma za unos grada" } },
   { path: '/forms/dogadaj-organizator', name: 'DogadajOrganizatorForm', component: DogadajOrganizator, meta: { title: "Forma za unos organizatora događaja" } },
   { path: '/forms/volonter-vjestina', name: 'VolonterVjestinaForm', component: VolonterVjestina, meta: { title: "Forma za unos vještine volontera" } },
   { path: '/forms/volonter-dogadaj', name: 'VolonterDogadajForm', component: VolonterDogadaj, meta: { title: "Forma za povezivanje volontera s događajem na kojem sudjeluje" } },
