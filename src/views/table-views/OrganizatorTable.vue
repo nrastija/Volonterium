@@ -1,7 +1,7 @@
 <template>
     <TableView 
       apiEndpoint="/api/organizator" 
-      naslov="Tablica: Organizatori" 
+      naslov="Tablica: Organizator" 
       :headers="['ID', 'Naziv', 'Kontakt Osoba', 'Telefon', 'Mail']" 
     />
   </template>

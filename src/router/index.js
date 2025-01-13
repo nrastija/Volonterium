@@ -19,6 +19,10 @@ import GradTable from '../views/table-views/GradTable.vue';
 import { path } from '@tauri-apps/api';
 import LokacijaTable from '../views/table-views/LokacijaTable.vue';
 import OrganizatorTable from '../views/table-views/OrganizatorTable.vue';
+import DrzavaTable from '../views/table-views/DrzavaTable.vue';
+import DogadajTable from '../views/table-views/DogadajTable.vue';
+import VolonterTable from '../views/table-views/VolonterTable.vue';
+import VjestinaTable from '../views/table-views/VjestinaTable.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: Home, meta: { title: "Dobrodošli u Volonterium!" }},
@@ -27,11 +31,11 @@ const routes = [
   { path: '/tables', name: 'Tables', component: TableChooser, meta: { title: "Izbornik tablica" } },
 
   //Rute za tablice
-  { path: '/tables/drzava', name: 'DrzavaTable', component: Table, meta: { title: "Tablica država" } },
+  { path: '/tables/drzava', name: 'DrzavaTable', component: DrzavaTable, meta: { title: "Tablica država" } },
   { path: '/tables/organizator', name: 'OrganizatorTable', component: OrganizatorTable, meta: { title: "Tablica organizatora" } },
-  { path: '/tables/dogadaj', name: 'DogadajTable', component: Table, meta: { title: "Tablica događaja" } },
-  { path: '/tables/volonter', name: 'VolonterTable', component: Table, meta: { title: "Tablica volontera" } },
-  { path: '/tables/vjestina', name: 'VjestinaTable', component: Table, meta: { title: "Tablica vještina" } },
+  { path: '/tables/dogadaj', name: 'DogadajTable', component: DogadajTable, meta: { title: "Tablica događaja" } },
+  { path: '/tables/volonter', name: 'VolonterTable', component: VolonterTable, meta: { title: "Tablica volontera" } },
+  { path: '/tables/vjestina', name: 'VjestinaTable', component: VjestinaTable, meta: { title: "Tablica vještina" } },
 
   //Rute za slozene tablice
   { path: '/tables/grad', name: 'GradTable', component: GradTable, meta: { title: "Tablica gradova" } },
