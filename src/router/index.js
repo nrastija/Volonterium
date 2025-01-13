@@ -18,6 +18,7 @@ import TableChooser from '../views/TableChooser.vue';
 import GradTable from '../views/table-views/GradTable.vue';
 import { path } from '@tauri-apps/api';
 import LokacijaTable from '../views/table-views/LokacijaTable.vue';
+import OrganizatorTable from '../views/table-views/OrganizatorTable.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: Home, meta: { title: "Dobrodošli u Volonterium!" }},
@@ -27,7 +28,7 @@ const routes = [
 
   //Rute za tablice
   { path: '/tables/drzava', name: 'DrzavaTable', component: Table, meta: { title: "Tablica država" } },
-  { path: '/tables/organizator', name: 'OrganizatorTable', component: Table, meta: { title: "Tablica organizatora" } },
+  { path: '/tables/organizator', name: 'OrganizatorTable', component: OrganizatorTable, meta: { title: "Tablica organizatora" } },
   { path: '/tables/dogadaj', name: 'DogadajTable', component: Table, meta: { title: "Tablica događaja" } },
   { path: '/tables/volonter', name: 'VolonterTable', component: Table, meta: { title: "Tablica volontera" } },
   { path: '/tables/vjestina', name: 'VjestinaTable', component: Table, meta: { title: "Tablica vještina" } },
