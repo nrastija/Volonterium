@@ -23,6 +23,9 @@ import DrzavaTable from '../views/table-views/DrzavaTable.vue';
 import DogadajTable from '../views/table-views/DogadajTable.vue';
 import VolonterTable from '../views/table-views/VolonterTable.vue';
 import VjestinaTable from '../views/table-views/VjestinaTable.vue';
+import DogadajOrganizatorTable from '../views/table-views/DogadajOrganizatorTable.vue';
+import VolonterVjestinaTable from '../views/table-views/VolonterVjestinaTable.vue';
+import VolonterDogadajTable from '../views/table-views/VolonterDogadajTable.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: Home, meta: { title: "Dobrodošli u Volonterium!" }},
@@ -40,9 +43,9 @@ const routes = [
   //Rute za slozene tablice
   { path: '/tables/grad', name: 'GradTable', component: GradTable, meta: { title: "Tablica gradova" } },
   { path: '/tables/lokacija', name: 'LokacijaTable', component: LokacijaTable, meta: { title: "Tablica lokacija" } },
-  { path: '/tables/dogadaj-organizator', name: 'DogadajOrganizatorTable', component: Table, meta: { title: "Tablica organizatora događaja" } },
-  { path: '/tables/volonter-vjestina', name: 'VolonterVjestinaTable', component: Table, meta: { title: "Tablica vještina volontera" } },
-  { path: '/tables/dogadaj-volonter', name: 'DogadajVolonterTable', component: Table, meta: { title: "Tablica volontera na događajima" } },
+  { path: '/tables/dogadaj-organizator', name: 'DogadajOrganizatorTable', component: DogadajOrganizatorTable, meta: { title: "Tablica organizatora događaja" } },
+  { path: '/tables/volonter-vjestina', name: 'VolonterVjestinaTable', component: VolonterVjestinaTable, meta: { title: "Tablica vještina volontera" } },
+  { path: '/tables/dogadaj-volonter', name: 'DogadajVolonterTable', component: VolonterDogadajTable, meta: { title: "Tablica volontera na događajima" } },
   { path: '/tables/povratna-informacija', name: 'PovratnaInformacijaTable', component: Table, meta: { title: "Tablica povratnih informacija" } },
 
   //Rute za forme
