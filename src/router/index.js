@@ -26,6 +26,11 @@ import VjestinaTable from '../views/table-views/VjestinaTable.vue';
 import DogadajOrganizatorTable from '../views/table-views/DogadajOrganizatorTable.vue';
 import VolonterVjestinaTable from '../views/table-views/VolonterVjestinaTable.vue';
 import VolonterDogadajTable from '../views/table-views/VolonterDogadajTable.vue';
+import PovratnaInformacijaForm from '../views/input-forms/PovratnaInformacijaForm.vue';
+import DogadajOrganizatorForm from '../views/input-forms/DogadajOrganizatorForm.vue';
+import VolonterVjestinaForm from '../views/input-forms/VolonterVjestinaForm.vue';
+import VolonterDogadajForm from '../views/input-forms/VolonterDogadajForm.vue';
+import PovratnaInformacijaTable from '../views/table-views/PovratnaInformacijaTable.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: Home, meta: { title: "Dobrodošli u Volonterium!" }},
@@ -46,7 +51,7 @@ const routes = [
   { path: '/tables/dogadaj-organizator', name: 'DogadajOrganizatorTable', component: DogadajOrganizatorTable, meta: { title: "Tablica organizatora događaja" } },
   { path: '/tables/volonter-vjestina', name: 'VolonterVjestinaTable', component: VolonterVjestinaTable, meta: { title: "Tablica vještina volontera" } },
   { path: '/tables/dogadaj-volonter', name: 'DogadajVolonterTable', component: VolonterDogadajTable, meta: { title: "Tablica volontera na događajima" } },
-  { path: '/tables/povratna-informacija', name: 'PovratnaInformacijaTable', component: Table, meta: { title: "Tablica povratnih informacija" } },
+  { path: '/tables/povratna-informacija', name: 'PovratnaInformacijaTable', component: PovratnaInformacijaTable, meta: { title: "Tablica povratnih informacija" } },
 
   //Rute za forme
   { path: '/forms/drzava', name: 'DrzavaForm', component: DrzavaForm, meta: { title: "Forma za unos države" } },
@@ -58,10 +63,10 @@ const routes = [
   //Ruta za slozene forme
   { path: '/forms/lokacija', name: 'LokacijaForm', component: LokacijaForm, meta: { title: "Forma za unos lokacije" } },
   { path: '/forms/grad', name: 'GradForm', component: GradForm, meta: { title: "Forma za unos grada" } },
-  { path: '/forms/dogadaj-organizator', name: 'DogadajOrganizatorForm', component: DogadajOrganizator, meta: { title: "Forma za unos organizatora događaja" } },
-  { path: '/forms/volonter-vjestina', name: 'VolonterVjestinaForm', component: VolonterVjestina, meta: { title: "Forma za unos vještine volontera" } },
-  { path: '/forms/volonter-dogadaj', name: 'VolonterDogadajForm', component: VolonterDogadaj, meta: { title: "Forma za povezivanje volontera s događajem na kojem sudjeluje" } },
-  { path: '/forms/povratna-informacija', name: 'PovratnaInformacijaForm', component: PovratnaInformacija, meta: { title: "Forma za unos povratne informacije" } },
+  { path: '/forms/dogadaj-organizator', name: 'DogadajOrganizatorForm', component: DogadajOrganizatorForm, meta: { title: "Forma za unos organizatora događaja" } },
+  { path: '/forms/volonter-vjestina', name: 'VolonterVjestinaForm', component: VolonterVjestinaForm, meta: { title: "Forma za unos vještine volontera" } },
+  { path: '/forms/volonter-dogadaj', name: 'VolonterDogadajForm', component: VolonterDogadajForm, meta: { title: "Forma za povezivanje volontera s događajem na kojem sudjeluje" } },
+  { path: '/forms/povratna-informacija', name: 'PovratnaInformacijaForm', component: PovratnaInformacijaForm, meta: { title: "Forma za unos povratne informacije" } },
 
   //Hvatanje 404
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: Error404, meta: { title: "404 - Stranica nije pronađena" } },
