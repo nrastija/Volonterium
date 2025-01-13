@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
-import Table from '../views/Table.vue';
 import FormChooser from '../views/FormChooser.vue';
 import DogadajForm from '../views/input-forms/DogadajForm.vue';
 import GradForm from '../views/input-forms/GradForm.vue';
@@ -9,14 +8,9 @@ import OrganizatorForm from '../views/input-forms/OrganizatorForm.vue';
 import DrzavaForm from '../views/input-forms/DrzavaForm.vue';
 import VolonterForm from '../views/input-forms/VolonterForm.vue';
 import VjestinaForm from '../views/input-forms/VjestinaForm.vue';
-import DogadajOrganizator from '../views/input-forms/DogadajOrganizatorForm.vue';
-import VolonterVjestina from '../views/input-forms/VolonterVjestinaForm.vue';
 import Error404 from '../views/errors/Error404.vue';
-import VolonterDogadaj from '../views/input-forms/VolonterDogadajForm.vue';
-import PovratnaInformacija from '../views/input-forms/PovratnaInformacijaForm.vue';
 import TableChooser from '../views/TableChooser.vue';
 import GradTable from '../views/table-views/GradTable.vue';
-import { path } from '@tauri-apps/api';
 import LokacijaTable from '../views/table-views/LokacijaTable.vue';
 import OrganizatorTable from '../views/table-views/OrganizatorTable.vue';
 import DrzavaTable from '../views/table-views/DrzavaTable.vue';
@@ -34,7 +28,6 @@ import PovratnaInformacijaTable from '../views/table-views/PovratnaInformacijaTa
 
 const routes = [
   { path: '/', name: 'Home', component: Home, meta: { title: "Dobrodošli u Volonterium!" }},
-  { path: '/table', name: 'Table', component: Table, meta: { title: "Tablica" } },
   { path: '/forms', name: 'Forms', component: FormChooser, meta: { title: "Izbornik formi" } },
   { path: '/tables', name: 'Tables', component: TableChooser, meta: { title: "Izbornik tablica" } },
 

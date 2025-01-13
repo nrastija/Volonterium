@@ -5,7 +5,6 @@
     <h1>{{ pageTitle }}</h1>
     <nav>
       <router-link class="router" to="/">Početna</router-link>
-      <router-link class="router" to="/table">Tablica</router-link>
       <router-link class="router" to="/forms">Izbornik formi</router-link>
       <router-link class="router" to="/tables">Izbornik tablica</router-link>
     </nav>
