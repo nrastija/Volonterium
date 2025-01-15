@@ -14,14 +14,14 @@ pub struct NewDrzava {
     pub naziv: String,
 }
 
-pub async fn get_drzave(State(db): State<Arc<Database>>) -> Result<Json<Vec<Drzava>>, StatusCode> {
-    match db.get_drzave().await {
+pub async fn get_drzava(State(db): State<Arc<Database>>) -> Result<Json<Vec<Drzava>>, StatusCode> {
+    match db.get_drzava_values().await {
         Ok(drzave) => Ok(Json(drzave)),
         Err(_) => Err(StatusCode::INTERNAL_SERVER_ERROR),
     }
 }
 
-pub async fn post_drzave(
+pub async fn post_drzava(
     State(db): State<Arc<Database>>,
     Json(new_drzava): Json<NewDrzava>,
 ) -> StatusCode {

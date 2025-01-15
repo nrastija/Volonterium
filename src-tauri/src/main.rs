@@ -3,13 +3,14 @@
 mod database;
 mod routes;
 
+use routes::drzava; use routes::organizator;
+
 use axum::{http::{header, Method}, routing::get, Router};
 use database::Database;
-use routes::drzava;
 use std::sync::Arc;
 use std::net::SocketAddr;
 
-use tower_http::cors::{AllowHeaders, AllowMethods, AllowOrigin, CorsLayer};
+use tower_http::cors::{AllowHeaders, AllowOrigin, CorsLayer};
 
 #[tokio::main]
 async fn main() {
@@ -31,12 +32,10 @@ async fn main() {
         }
     }
 
-    // Define routes and attach state
+    // Definiranje ruta i putanja
     let app = Router::new()
-        .route(
-            "/api/drzava",
-            get(drzava::get_drzave).post(drzava::post_drzave),
-        )
+        .route("/api/drzava", get(drzava::get_drzava).post(drzava::post_drzava))
+        .route("/api/organizator", get(organizator::get_organizator).post(organizator::post_organizator))
         .with_state(db.clone())
         .layer(
             CorsLayer::new()
@@ -45,7 +44,7 @@ async fn main() {
                 .allow_headers(AllowHeaders::list([header::CONTENT_TYPE]))
         );
 
-    // Start the Axum server    
+    // Pokretanje backend servera (Axum) 
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
     println!("Starting server at http://{}", addr);
 

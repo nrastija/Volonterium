@@ -1,8 +1,12 @@
 use rusqlite::{Connection, Result};
 use tokio::sync::Mutex;
 use std::sync::Arc;
+
 use crate::routes::drzava::Drzava;
 use crate::routes::drzava::NewDrzava;
+
+use crate::routes::organizator::Organizator;
+use crate::routes::organizator::NewOrganizator;
 
 #[derive(Clone)]
 pub struct Database {
@@ -26,7 +30,10 @@ impl Database {
         Ok(table_names)
     }
 
-    pub async fn get_drzave(&self) -> Result<Vec<Drzava>> {
+    /* ------------------------------- JEDNOSTAVNE TABLICE U BAZI ------------------------------- */
+
+    /* Tablica drzava */
+    pub async fn get_drzava_values(&self) -> Result<Vec<Drzava>> {
         let conn = self.conn.lock().await; 
         let mut stmt = conn.prepare("SELECT id, naziv FROM drzava")?;
         let drzave = stmt
@@ -51,4 +58,51 @@ impl Database {
         println!("Unešen novi zapis u tablicu drzava: {}", drzava.naziv);
         Ok(())
     }
+
+    /* Tablica Organizator */
+    
+    pub async fn get_organizator_values(&self) -> Result<Vec<Organizator>> {
+        let conn = self.conn.lock().await; 
+        let mut stmt = conn.prepare("SELECT id, naziv, kontakt_osoba, telefon, mail FROM organizator")?;
+        let organizatori = stmt
+            .query_map([], |row| {
+                Ok(Organizator {
+                    id: row.get(0)?,
+                    naziv: row.get(1)?,
+                    kontakt_osoba: row.get(2)?,
+                    kontakt_telefon: row.get(3)?,
+                    mail: row.get(4)?,
+                })
+            })?
+            .collect::<Result<Vec<_>, _>>()?;
+        Ok(organizatori)
+    }
+
+    pub async fn create_organizator(&self, organizator: NewOrganizator) -> Result<()> {
+        let conn = self.conn.lock().await;
+    
+        let mut stmt = conn.prepare(
+            "INSERT INTO organizator (naziv, kontakt_osoba, telefon, mail) VALUES (?, ?, ?, ?)"
+        )?;
+        
+        println!(
+            "Preparing to insert: {}, {}, {}, {}",
+            organizator.naziv, organizator.kontakt_osoba, organizator.telefon, organizator.mail
+        );
+        
+        stmt.execute((
+            &organizator.naziv,
+            &organizator.kontakt_osoba,
+            &organizator.telefon,
+            &organizator.mail,
+        ))?;
+    
+        println!(
+            "Unešen novi zapis u tablicu organizator: {}, {}, {}, {}",
+            organizator.naziv, organizator.kontakt_osoba, organizator.telefon, organizator.mail
+        );
+    
+        Ok(())
+    }
+
 }

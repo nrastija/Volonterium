@@ -19,7 +19,7 @@
             <input type="text" class="form-control" id="mail" v-model="mail" required>
         </div>
 
-        <button type="submit" @click="SaveOrganizator">Spremi organizatora u BP</button>
+        <button type="submit" @click.prevent="SaveOrganizator">Spremi organizatora u BP</button>
     </form>
 </template>
 
@@ -38,29 +38,50 @@ export default {
         };
     },
     methods: {
-        SaveOrganizator() {
+        async SaveOrganizator() {
             if (!this.naziv || !this.kontakt_osoba || !this.telefon || !this.mail) {
                 alert("Molimo popunite sva obavezna polja!");
                 return;
             }
 
-            // Validacija opisa za sigurnost   
-            if (!this.validirajUnos(this.naziv) || !this.validirajUnos(this.kontakt_osoba) || !this.validirajUnos(this.mail) || !this.validirajUnos(this.telefon)) { 
-                alert("Atribut sadrži nedozvoljene znakove! Molimo pokušajte ponovo.");
+            if (!this.validirajUnos(this.naziv) || !this.validirajUnos(this.kontakt_osoba) || !this.validirajUnos(this.telefon) || !this.validirajUnos(this.mail)) {
+                alert("Unos sadrži nedozvoljene znakove. Pokušajte ponovo.");
                 return;
             }
-            
-            /*
-            Logika za unos baze
-            */
 
-            alert("Organizator "+ this.naziv + " s kontakt osobom " + this.kontakt_osoba + " je uspješno unesen u bazu podataka!");
+            try {
+                const response = await fetch("http://127.0.0.1:3000/api/organizator", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        naziv: this.naziv,
+                        kontakt_osoba: this.kontakt_osoba,
+                        telefon: this.telefon,
+                        mail: this.mail,
+                    }),
+                });
+
+                if (response.ok) {
+                    alert(`Organizator "${this.naziv}" uspješno je dodan u bazu podataka!`);
+                    this.naziv = "";
+                    this.kontakt_osoba = "";
+                    this.telefon = "";
+                    this.mail = "";
+                } else {
+                    const errorMessage = await response.text();
+                    alert(`Greška prilikom unosa organizatora: ${errorMessage}`);
+                }
+            } catch (error) {
+                console.error("Greška pri slanju podataka:", error);
+                alert("Došlo je do greške prilikom unosa organizatora.");
+            }
         },
 
-        validirajUnos(opis) {
-            // Regex za zabranjene znakove
+        validirajUnos(input) {
             const zabranjeniZnakovi = /['"%;(){}<>]/;
-            return !zabranjeniZnakovi.test(opis);
+            return !zabranjeniZnakovi.test(input);
         },
     },
 };
