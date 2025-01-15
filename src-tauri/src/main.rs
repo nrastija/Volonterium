@@ -41,7 +41,7 @@ async fn main() {
         .route("/api/organizator", get(organizator::get_organizator).post(organizator::post_organizator))
         .route("/api/dogadaj", get(dogadaj::get_dogadaj).post(dogadaj::post_dogadaj))
         .route("/api/volonter", get(volonter::get_volonter).post(volonter::post_volonter))
-        .route("/api/vjesina", get(vjestina::get_vjestina).post(vjestina::post_vjestina))
+        .route("/api/vjestina", get(vjestina::get_vjestina).post(vjestina::post_vjestina))
 
         .with_state(db.clone())
         .layer(

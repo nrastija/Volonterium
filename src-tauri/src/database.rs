@@ -210,7 +210,7 @@ impl Database {
     /* Tablica Vjestina */
     pub async fn get_vjestina_values(&self) -> Result<Vec<Vjestina>> {
         let conn = self.conn.lock().await;
-        let mut stmt = conn.prepare("SELECT id, ime, prezime, mail, telefon, datum_pridruzivanja FROM volonter")?;
+        let mut stmt = conn.prepare("SELECT id, naziv, opis FROM vjestina")?;
 
         let vjestine = stmt
             .query_map([], |row| {
@@ -229,7 +229,7 @@ impl Database {
         let conn = self.conn.lock().await;
 
         let mut stmt = conn.prepare(
-            "INSERT INTO vjestinan (naziv, opis) VALUES (?, ?, ?, ?, ?)",
+            "INSERT INTO vjestina (naziv, opis) VALUES (?, ?)",
         )?;
 
         stmt.execute((

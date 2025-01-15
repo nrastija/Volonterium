@@ -26,29 +26,54 @@ export default {
         };
     },
     methods: {
-        SaveVjestina() {
+        async SaveVjestina() {
             if (!this.naziv) {
                 alert("Molimo unesite naziv vještine!");
                 return;
             }
 
-            // Validacija opisa za sigurnost   
+            // Validacija inputa
             if (!this.validirajUnos(this.opis) || !this.validirajUnos(this.naziv)) {
                 alert("Atribut sadrži nedozvoljene znakove! Molimo pokušajte ponovo.");
                 return;
             }
 
-            /*
-            Logika za unos baze
-            */
+            const vjestinaData = {
+                naziv: this.naziv,
+                opis: this.opis || null, 
+            };
 
-            alert("Vještina " + this.naziv + " je uspješno unesena u bazu podataka!");
+            try {
+                const response = await fetch("http://127.0.0.1:3000/api/vjestina", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(vjestinaData),
+                });
+
+                if (response.ok) {
+                    alert(`Vještina "${this.naziv}" je uspješno unesena u bazu podataka!`);
+                    this.resetForm();
+                } else {
+                    const errorMessage = await response.text();
+                    alert(`Greška prilikom unosa vještine: ${errorMessage}`);
+                }
+            } catch (error) {
+                console.error("Greška prilikom unosa vještine:", error);
+                alert("Došlo je do greške prilikom unosa vještine.");
+            }
         },
 
-        validirajOpis(opis) {
+        validirajUnos(opis) {
             // Regex za zabranjene znakove
             const zabranjeniZnakovi = /['"%;(){}<>]/;
             return !zabranjeniZnakovi.test(opis);
+        },
+
+        resetForm() {
+            this.naziv = "";
+            this.opis = "";
         },
     },
 };
