@@ -1,0 +1,32 @@
+use axum::{Json, extract::State, http::StatusCode};
+use crate::database::Database;
+use serde::{Deserialize, Serialize};
+use std::sync::Arc;
+
+#[derive(Serialize)]
+pub struct Drzava {
+    pub id: i32,
+    pub naziv: String,
+}
+
+#[derive(Deserialize)]
+pub struct NewDrzava {
+    pub naziv: String,
+}
+
+pub async fn get_drzave(State(db): State<Arc<Database>>) -> Result<Json<Vec<Drzava>>, StatusCode> {
+    match db.get_drzave().await {
+        Ok(drzave) => Ok(Json(drzave)),
+        Err(_) => Err(StatusCode::INTERNAL_SERVER_ERROR),
+    }
+}
+
+pub async fn post_drzave(
+    State(db): State<Arc<Database>>,
+    Json(new_drzava): Json<NewDrzava>,
+) -> StatusCode {
+    match db.create_drzava(new_drzava).await {
+        Ok(_) => StatusCode::CREATED,
+        Err(_) => StatusCode::INTERNAL_SERVER_ERROR,
+    }
+}

@@ -90,14 +90,14 @@ export default {
 }
 
 .data-table tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: #404252;
 }
 
 .data-table tr:hover {
-  background-color: #ddd;
+  background-color: #3a8a96;
 }
 
 .data-table td {
-  color: #333;
+  color: #ddd;
 }
 </style>

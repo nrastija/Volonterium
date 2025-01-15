@@ -7,7 +7,7 @@
             <input type="text" class="form-control" id="naziv" v-model="naziv">
         </div>
 
-        <button type="submit" @click="SaveDrzava">Spremi državu u BP</button>
+        <button type="submit" @click.prevent="SaveDrzava">Spremi državu u BP</button>
     </form>
 </template>
 
@@ -20,17 +20,33 @@ export default {
         };
     },
     methods: {
-        SaveDrzava() {
+        async SaveDrzava() {
             if (!this.naziv) {
                 alert("Molimo unesite naziv države!");
                 return;
             }
 
-            /*
-            Logika za unos baze
-            */
+            try {
+                const response = await fetch("http://127.0.0.1:3000/api/drzava", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ naziv: this.naziv }),
+                });
 
-            alert("Država  " + this.naziv + " je uspješno unesena u bazu podataka!");
+                if (response.ok) {
+                    alert(`Država "${this.naziv}" je uspješno unesena u bazu podataka!`);
+                    this.naziv = "";
+                } else {
+                    const errorMessage = await response.text();
+                    alert(`Greška prilikom unosa države: ${errorMessage}`);
+                }
+            } catch (error) {
+                console.error("Error while saving state:", error);
+                alert("Došlo je do greške prilikom unosa države.");
+            }
+
         },
     },
 };
