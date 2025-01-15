@@ -11,6 +11,7 @@ use crate::routes::organizator::NewOrganizator;
 use crate::routes::dogadaj::Dogadaj;
 use crate::routes::dogadaj::NewDogadaj;
 
+use crate::routes::vjestina::NewVjestina;
 use crate::routes::volonter::NewVolonter;
 use crate::routes::volonter::Volonter;
 
@@ -203,5 +204,8 @@ impl Database {
 
         Ok(())
     }
+
+    /* Tablica Vjestina */
+    
 
 }
