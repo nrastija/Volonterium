@@ -1,12 +1,17 @@
 use rusqlite::{Connection, Result};
 use tokio::sync::Mutex;
 use std::sync::Arc;
+use chrono::NaiveDateTime;
 
 use crate::routes::drzava::Drzava;
 use crate::routes::drzava::NewDrzava;
 
 use crate::routes::organizator::Organizator;
 use crate::routes::organizator::NewOrganizator;
+
+use crate::routes::dogadaj::Dogadaj;
+use crate::routes::dogadaj::NewDogadaj;
+
 
 #[derive(Clone)]
 pub struct Database {
@@ -60,7 +65,6 @@ impl Database {
     }
 
     /* Tablica Organizator */
-    
     pub async fn get_organizator_values(&self) -> Result<Vec<Organizator>> {
         let conn = self.conn.lock().await; 
         let mut stmt = conn.prepare("SELECT id, naziv, kontakt_osoba, telefon, mail FROM organizator")?;
@@ -89,7 +93,7 @@ impl Database {
             "Preparing to insert: {}, {}, {}, {}",
             organizator.naziv, organizator.kontakt_osoba, organizator.telefon, organizator.mail
         );
-        
+
         stmt.execute((
             &organizator.naziv,
             &organizator.kontakt_osoba,
@@ -105,4 +109,48 @@ impl Database {
         Ok(())
     }
 
+    /* Tablica Dogadaj */
+    pub async fn get_dogadaj_values(&self) -> Result<Vec<Dogadaj>> {
+        let conn = self.conn.lock().await;
+        let mut stmt = conn.prepare("SELECT id, naziv, datum_vrijeme, opis, potrebni_volonteri FROM dogadaj")?;
+
+        let dogadaji = stmt
+            .query_map([], |row| {
+                Ok(Dogadaj {
+                    id: row.get(0)?,
+                    naziv: row.get(1)?,
+                    datum_vrijeme: row.get::<_, String>(2)?,
+                    opis: row.get(3)?,
+                    potrebni_volonteri: row.get(4)?,
+                })
+            })?
+            .collect::<Result<Vec<_>, _>>()?;
+
+        Ok(dogadaji)
+    }
+    
+    pub async fn create_dogadaj(&self, dogadaj: NewDogadaj) -> Result<()> {
+        let conn = self.conn.lock().await;
+
+        let mut stmt = conn.prepare(
+            "INSERT INTO dogadaj (naziv, datum_vrijeme, opis, potrebni_volonteri) VALUES (?, ?, ?, ?)",
+        )?;
+
+        stmt.execute((
+            &dogadaj.naziv,
+            &dogadaj.datum_vrijeme.format("%Y-%m-%d %H:%M:%S").to_string(),
+            &dogadaj.opis,
+            &dogadaj.potrebni_volonteri,
+        ))?;
+
+        println!(
+            "Unešen novi zapis u tablicu dogadaj: {}, {}, {}, {}",
+            dogadaj.naziv,
+            dogadaj.datum_vrijeme,
+            dogadaj.opis,
+            dogadaj.potrebni_volonteri
+        );
+
+        Ok(())
+    }
 }

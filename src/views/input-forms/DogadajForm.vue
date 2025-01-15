@@ -7,7 +7,7 @@
             <input type="text" class="form-control" id="naziv" v-model="naziv" required>
         </div>
         <div class="form-group">
-            <label for="Datum_vrijeme">Datum i vrijeme:</label>
+            <label for="Datum_vrijeme">Datum i vrijeme (Format YYYY-MM-DDTHH:MM:SS [ISO 8601]):</label>
             <input type="datetime" class="form-control" id="datum_vrijeme" v-model="datum_vrijeme" required>
         </div>
         <div class="form-group">
@@ -30,30 +30,44 @@ export default {
     opis: "Unos opisa",
     potrebni_volonteri: "Unos broja potrebnih volontera",
     methods: {
-        SaveDogadaj() {
-            if (!this.naziv || !this.datum_vrijeme || !this.potrebni_volonteri) {
-                alert("Molimo popunite sva obavezna polja!");
-                return;
+    async SaveDogadaj() {
+        if (!this.naziv || !this.datum_vrijeme || !this.potrebni_volonteri) {
+            alert("Molimo popunite sva obavezna polja!");
+            return;
+        }
+
+        try {
+            // Send a POST request to the backend API
+            const response = await fetch("http://127.0.0.1:3000/api/dogadaj", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    naziv: this.naziv,
+                    datum_vrijeme: this.datum_vrijeme,
+                    opis: this.opis || null, // Optional field
+                    potrebni_volonteri: parseInt(this.potrebni_volonteri, 10),
+                }),
+            });
+
+            if (response.ok) {
+                alert(`Događaj "${this.naziv}" uspješno unesen u bazu podataka!`);
+                // Clear the form fields
+                this.naziv = "";
+                this.datum_vrijeme = "";
+                this.opis = "";
+                this.potrebni_volonteri = "";
+            } else {
+                const errorMessage = await response.text();
+                alert(`Greška prilikom unosa događaja: ${errorMessage}`);
             }
-
-            // Validacija opisa za sigurnost   
-            if (!this.validirajUnos(this.naziv) || !this.validirajUnos(this.datum_vrijeme) || !this.validirajUnos(this.opis) || !this.validirajUnos(this.potrebni_volonteri)) { 
-                alert("Atribut sadrži nedozvoljene znakove! Molimo pokušajte ponovo.");
-                return;
-            }
-            
-            /*
-            Logika za unos baze
-            */
-
-            alert("Događaj " + this.naziv + " koji se odvija " + this.datum_vrijeme + " uspješno upisan u bazu!");
-        },
-
-        validirajUnos(opis) {
-            // Regex za zabranjene znakove
-            const zabranjeniZnakovi = /['"%;(){}<>]/;
-            return !zabranjeniZnakovi.test(opis);
-        },
+        } catch (error) {
+            console.error("Error while saving event:", error);
+            alert("Došlo je do greške prilikom unosa događaja.");
+        }
     },
+},
+
 };
 </script>
