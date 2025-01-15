@@ -18,6 +18,9 @@ use crate::routes::volonter::Volonter;
 use crate::routes::vjestina::Vjestina;
 use crate::routes::vjestina::NewVjestina;
 
+use crate::routes::grad::Grad;
+use crate::routes::grad::NewGrad;
+
 #[derive(Clone)]
 pub struct Database {
     conn: Arc<Mutex<Connection>>, 
@@ -245,5 +248,44 @@ impl Database {
 
         Ok(())
     }
+    
+    /* ------------------------------- SLOZENE TABLICE U BAZI ------------------------------- */
+    /* Tablica Grad */
+    pub async fn get_grad_value(&self) -> Result<Vec<Grad>> {
+        let conn = self.conn.lock().await;
+        let mut stmt = conn.prepare("SELECT id, naziv, id_drzava FROM grad")?;
 
+        let grad = stmt
+            .query_map([], |row| {
+                Ok(Grad {
+                    id: row.get(0)?,
+                    naziv: row.get(1)?,
+                    id_drzava: row.get(2)?,
+                })
+            })?
+            .collect::<Result<Vec<_>, _>>()?;
+
+        Ok(grad)
+    }
+    
+    pub async fn create_grad(&self, grad: NewGrad) -> Result<()> {
+        let conn = self.conn.lock().await;
+
+        let mut stmt = conn.prepare(
+            "INSERT INTO grad (naziv, id_drzava) VALUES (?, ?)",
+        )?;
+
+        stmt.execute((
+            &grad.naziv,
+            &grad.id_drzava,
+        ))?;
+
+        println!(
+            "Unešen novi zapis u tablicu volonter: {}, {}",
+            grad.naziv,
+            grad.id_drzava,
+        );
+
+        Ok(())
+    }
 }

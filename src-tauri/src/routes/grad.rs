@@ -1,7 +1,6 @@
 use axum::{Json, extract::State, http::StatusCode};
 use crate::database::Database;
 use serde::{Deserialize, Serialize};
-use chrono::{NaiveDate};
 use std::sync::Arc;
 
 #[derive(Serialize, Debug)]
@@ -31,9 +30,9 @@ pub async fn get_grad(State(db): State<Arc<Database>>) -> Result<Json<Vec<Grad>>
 }
 
 
-pub async fn post_volonter(
+pub async fn post_grad(
     State(db): State<Arc<Database>>,
-    Json(new_graad): Json<NewGrad>,
+    Json(new_grad): Json<NewGrad>,
 ) -> StatusCode {
     match db.create_grad(new_grad).await {
         Ok(_) => StatusCode::CREATED,
