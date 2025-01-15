@@ -3,7 +3,7 @@ use crate::database::Database;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
-#[derive(Serialize)]
+#[derive(Serialize, Debug)]
 pub struct Organizator {
     pub id: i32,
     pub naziv: String,
@@ -22,8 +22,14 @@ pub struct NewOrganizator {
 
 pub async fn get_organizator(State(db): State<Arc<Database>>) -> Result<Json<Vec<Organizator>>, StatusCode> {
     match db.get_organizator_values().await {
-        Ok(organizatori) => Ok(Json(organizatori)),
-        Err(_) => Err(StatusCode::INTERNAL_SERVER_ERROR),
+        Ok(organizatori) => {
+            println!("Fetched organizatori: {:?}", organizatori);
+            Ok(Json(organizatori))
+        }
+        Err(err) => {
+            eprintln!("Error fetching organizatori: {:?}", err);
+            Err(StatusCode::INTERNAL_SERVER_ERROR)
+        }
     }
 }
 

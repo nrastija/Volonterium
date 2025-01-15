@@ -24,11 +24,11 @@ pub struct NewDogadaj {
 pub async fn get_dogadaj(State(db): State<Arc<Database>>) -> Result<Json<Vec<Dogadaj>>, StatusCode> {
     match db.get_dogadaj_values().await {
         Ok(dogadaji) => {
-            println!("Fetched dogadaji: {:?}", dogadaji); // Log the fetched data
+            println!("Fetched dogadaji: {:?}", dogadaji); //Log fetch
             Ok(Json(dogadaji))
         }
         Err(err) => {
-            eprintln!("Error fetching dogadaji: {:?}", err); // Log the error
+            eprintln!("Error fetching dogadaji: {:?}", err); // Log error
             Err(StatusCode::INTERNAL_SERVER_ERROR)
         }
     }
