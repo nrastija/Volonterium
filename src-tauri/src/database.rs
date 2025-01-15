@@ -1,7 +1,6 @@
 use rusqlite::{Connection, Result};
 use tokio::sync::Mutex;
 use std::sync::Arc;
-use chrono::NaiveDateTime;
 
 use crate::routes::drzava::Drzava;
 use crate::routes::drzava::NewDrzava;
@@ -11,6 +10,9 @@ use crate::routes::organizator::NewOrganizator;
 
 use crate::routes::dogadaj::Dogadaj;
 use crate::routes::dogadaj::NewDogadaj;
+
+use crate::routes::volonter::NewVolonter;
+use crate::routes::volonter::Volonter;
 
 
 #[derive(Clone)]
@@ -153,4 +155,53 @@ impl Database {
 
         Ok(())
     }
+
+    /* Tablica Volonter */
+    pub async fn get_volonter_values(&self) -> Result<Vec<Volonter>> {
+        let conn = self.conn.lock().await;
+        let mut stmt = conn.prepare("SELECT id, ime, prezime, mail, telefon, datum_pridruzivanja FROM volonter")?;
+
+        let volonteri = stmt
+            .query_map([], |row| {
+                Ok(Volonter {
+                    id: row.get(0)?,
+                    ime: row.get(1)?,
+                    prezime: row.get(2)?,
+                    mail: row.get(3)?,
+                    telefon: row.get(4)?,
+                    datum_pridruzivanja: row.get(5)?,
+                })
+            })?
+            .collect::<Result<Vec<_>, _>>()?;
+
+        Ok(volonteri)
+    }
+    
+    pub async fn create_volonter(&self, volonter: NewVolonter) -> Result<()> {
+        let conn = self.conn.lock().await;
+
+        let mut stmt = conn.prepare(
+            "INSERT INTO volonter (ime, prezime, mail, telefon, datum_pridruzivanja) VALUES (?, ?, ?, ?, ?)",
+        )?;
+
+        stmt.execute((
+            &volonter.ime,
+            &volonter.prezime,
+            &volonter.mail,
+            &volonter.telefon,
+            &volonter.datum_pridruzivanja.format("%Y-%m-%d").to_string()
+        ))?;
+
+        println!(
+            "Unešen novi zapis u tablicu volonter: {}, {}, {}, {}, {}",
+            volonter.ime,
+            volonter.prezime,
+            volonter.mail,
+            volonter.telefon,
+            volonter.datum_pridruzivanja
+        );
+
+        Ok(())
+    }
+
 }

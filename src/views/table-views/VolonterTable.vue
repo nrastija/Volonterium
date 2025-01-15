@@ -1,6 +1,6 @@
 <template>
     <TableView 
-      apiEndpoint="/api/volonter" 
+      apiEndpoint="http://127.0.0.1:3000/api/volonter" 
       naslov="Tablica: Volonter" 
       :headers="['ID', 'Ime', 'Prezime', 'Mail', 'Telefon', 'Datum pridruživanja']" 
     />

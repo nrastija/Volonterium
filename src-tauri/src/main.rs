@@ -8,6 +8,7 @@ use routes::drzava; use routes::organizator; use routes::dogadaj;
 
 use axum::{http::{header, Method}, routing::get, Router};
 use database::Database;
+use routes::volonter;
 use std::sync::Arc;
 use std::net::SocketAddr;
 
@@ -38,6 +39,7 @@ async fn main() {
         .route("/api/drzava", get(drzava::get_drzava).post(drzava::post_drzava))
         .route("/api/organizator", get(organizator::get_organizator).post(organizator::post_organizator))
         .route("/api/dogadaj", get(dogadaj::get_dogadaj).post(dogadaj::post_dogadaj))
+        .route("/api/volonter", get(volonter::get_volonter).post(volonter::post_volonter))
 
         .with_state(db.clone())
         .layer(
