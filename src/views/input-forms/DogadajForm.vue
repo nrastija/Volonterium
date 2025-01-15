@@ -19,7 +19,7 @@
             <input type="text" class="form-control" id="potrebni_volonteri" v-model="potrebni_volonteri" required>
         </div>
 
-        <button type="submit" @click="SaveDogadaj">Spremi događaj u BP</button>
+        <button type="submit" @click.prevent="SaveDogadaj">Spremi događaj u BP</button>
     </form>
 </template>
 

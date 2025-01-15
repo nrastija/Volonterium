@@ -15,7 +15,7 @@
             </select>
         </div>
 
-        <button type="submit" class="btn-submit" @click="saveGrad">Spremi grad u BP</button>
+        <button type="submit" class="btn-submit" @click.prevent="saveGrad">Spremi grad u BP</button>
     </form>
 </template>
 

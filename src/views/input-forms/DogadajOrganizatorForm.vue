@@ -35,7 +35,7 @@
             </select>
         </div>
 
-        <button type="submit" class="btn-submit" @click="SaveDogadajOrganizator">Spremi organizatora dogadaja u BP</button>
+        <button type="submit" class="btn-submit" @click.prevent="SaveDogadajOrganizator">Spremi organizatora dogadaja u BP</button>
     </form>
 </template>
 
@@ -74,7 +74,7 @@ export default {
       this.organizatori = await (await fetch("api/organizatori")).json();
       this.lokacije = await (await fetch("api/lokacije")).json();
     },
-    async saveDogadajOrganizator() {
+    async SaveDogadajOrganizator() {
         if (!this.uloga_organizatora || !this.id_dogadaj || !this.id_organizator || !this.id_lokacija) {
             alert("Molimo unesite sva polja!");
             return;

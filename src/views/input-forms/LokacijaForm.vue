@@ -15,7 +15,7 @@
             </select>
         </div>
 
-        <button type="submit" class="btn-submit" @click="saveGrad">Spremi lokaciju u BP</button>
+        <button type="submit" class="btn-submit" @click.prevent="SaveLokacija">Spremi lokaciju u BP</button>
     </form>
 </template>
 
@@ -37,7 +37,7 @@ export default {
       this.gradovi = await response.json();
     },
 
-    async saveLokacija() {
+    async SaveLokacija() {
         if (!this.naziv || !this.id_grad) {
             alert("Molimo unesite i odaberite sva polja!");
             return;

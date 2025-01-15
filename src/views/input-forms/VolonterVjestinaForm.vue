@@ -29,7 +29,7 @@
             </select>
         </div>
 
-        <button type="submit" @click="SaveVjestina">Spremi vjestinu u BP</button>
+        <button type="submit" @click.prevent="SaveVjestina">Spremi vjestinu u BP</button>
     </form>
 </template>
 
