@@ -11,10 +11,12 @@ use crate::routes::organizator::NewOrganizator;
 use crate::routes::dogadaj::Dogadaj;
 use crate::routes::dogadaj::NewDogadaj;
 
-use crate::routes::vjestina::NewVjestina;
+
 use crate::routes::volonter::NewVolonter;
 use crate::routes::volonter::Volonter;
 
+use crate::routes::vjestina::Vjestina;
+use crate::routes::vjestina::NewVjestina;
 
 #[derive(Clone)]
 pub struct Database {
@@ -206,6 +208,42 @@ impl Database {
     }
 
     /* Tablica Vjestina */
+    pub async fn get_vjestina_values(&self) -> Result<Vec<Vjestina>> {
+        let conn = self.conn.lock().await;
+        let mut stmt = conn.prepare("SELECT id, ime, prezime, mail, telefon, datum_pridruzivanja FROM volonter")?;
+
+        let vjestine = stmt
+            .query_map([], |row| {
+                Ok(Vjestina {
+                    id: row.get(0)?,
+                    naziv: row.get(1)?,
+                    opis: row.get(2)?,
+                })
+            })?
+            .collect::<Result<Vec<_>, _>>()?;
+
+        Ok(vjestine)
+    }
     
+    pub async fn create_vjestina(&self, vjestina: NewVjestina) -> Result<()> {
+        let conn = self.conn.lock().await;
+
+        let mut stmt = conn.prepare(
+            "INSERT INTO vjestinan (naziv, opis) VALUES (?, ?, ?, ?, ?)",
+        )?;
+
+        stmt.execute((
+            &vjestina.naziv,
+            &vjestina.opis,
+        ))?;
+
+        println!(
+            "Unešen novi zapis u tablicu volonter: {}, {}",
+            vjestina.naziv,
+            vjestina.opis,
+        );
+
+        Ok(())
+    }
 
 }

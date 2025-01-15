@@ -17,8 +17,8 @@ pub struct NewVjestina {
     pub opis: String,
 }
 
-pub async fn get_vjestina(State(db): State<Arc<Database>>) -> Result<Json<Vec<Volonter>>, StatusCode> {
-    match db.get_volonter_values().await {
+pub async fn get_vjestina(State(db): State<Arc<Database>>) -> Result<Json<Vec<Vjestina>>, StatusCode> {
+    match db.get_vjestina_values().await {
         Ok(vjestine) => {
             println!("Fetched vjestine: {:?}", vjestine); //Log fetch
             Ok(Json(vjestine))
@@ -31,11 +31,11 @@ pub async fn get_vjestina(State(db): State<Arc<Database>>) -> Result<Json<Vec<Vo
 }
 
 
-pub async fn post_volonter(
+pub async fn post_vjestina(
     State(db): State<Arc<Database>>,
     Json(new_vjestina): Json<NewVjestina>,
 ) -> StatusCode {
-    match db.create_volonter(new_vjestina).await {
+    match db.create_vjestina(new_vjestina).await {
         Ok(_) => StatusCode::CREATED,
         Err(_) => StatusCode::INTERNAL_SERVER_ERROR,
     }
