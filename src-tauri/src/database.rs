@@ -26,6 +26,7 @@ use crate::routes::lokacija::Lokacija;
 use crate::routes::lokacija::NewLokacija;
 
 use crate::routes::dogadaj_organizator::DogadajOrganizator;
+use crate::routes::volonter_dogadaj::VolonterDogadaj;
 use crate::routes::volonter_vjestina::VolonterVjestina;
 #[derive(Clone)]
 pub struct Database {
@@ -416,6 +417,50 @@ impl Database {
             volonter_vjestina.razina,
             volonter_vjestina.id_volonter,
             volonter_vjestina.id_vjestina,
+        );
+
+        Ok(())
+    }
+
+    /* Tablica volonter_dogadaj */
+    pub async fn get_volonter_dogadaj_values(&self) -> Result<Vec<VolonterDogadaj>> {
+        let conn = self.conn.lock().await;
+        let mut stmt = conn.prepare("SELECT broj_sati, status, id_volonter, id_dogadaj FROM volonter_dogadaj")?;
+
+        let volotneri_dogadaji = stmt
+            .query_map([], |row| {
+                Ok(VolonterDogadaj {
+                    broj_sati: row.get(0)?,
+                    status: row.get(1)?,
+                    id_volonter: row.get(2)?,
+                    id_dogadaj: row.get(3)?,
+                })
+            })?
+            .collect::<Result<Vec<_>, _>>()?;
+
+        Ok(volotneri_dogadaji)
+    }
+    
+    pub async fn create_volonter_dogadaj(&self, volonter_dogadaj: VolonterDogadaj) -> Result<()> {
+        let conn = self.conn.lock().await;
+
+        let mut stmt = conn.prepare(
+            "INSERT INTO volonter_dogadaj (id_volonter, id_dogadaj, broj_sati, status) VALUES (?, ?, ?, ?)",
+        )?;
+
+        stmt.execute((
+            &volonter_dogadaj.id_volonter,
+            &volonter_dogadaj.id_dogadaj,
+            &volonter_dogadaj.broj_sati,
+            &volonter_dogadaj.status,
+        ))?;
+
+        println!(
+            "Unešen novi zapis u tablicu lokacija: {}, {}, {},{}",
+            volonter_dogadaj.id_volonter,
+            volonter_dogadaj.id_dogadaj,
+            volonter_dogadaj.broj_sati,
+            volonter_dogadaj.status
         );
 
         Ok(())
