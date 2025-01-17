@@ -51,8 +51,18 @@ export default {
   },
   methods: {
     async fetchPodaci() {
-      this.volonteri = await (await fetch("/api/volonteri")).json();
-      this.dogadaji = await (await fetch("/api/dogadaji")).json();
+      try {
+            const response_volonteri = await fetch("http://127.0.0.1:3000/api/volonter");
+            const response_dogadaji = await fetch("http://127.0.0.1:3000/api/dogadaj");
+            if (response_volonteri.ok && response_dogadaji.ok) {
+                this.volonteri = await response_volonteri.json();
+                this.dogadaji = await response_dogadaji.json();
+            } else {
+                console.error("Greška prilikom dohvaćanja jedne ili više tablice:", response_dogadaji.statusText, response_volonteri.statusText);
+            }
+        } catch (error) {
+            console.error("Greška:", error);
+        }
     },
     async saveVolonterDogadaj() {
       if (!this.id_volonter || !this.id_dogadaj || !this.broj_sati || !this.status) {
@@ -68,18 +78,47 @@ export default {
             return;
         }
 
-        /*
-        Logika za unos baze
-        */
+        const volonterDogadajData = {
+            broj_sati: this.broj_sati,
+            status: this.status,
+            id_volonter: this.id_volonter,
+            id_dogadaj: this.id_dogadaj,
+        };
 
-        alert("Uspješno povezani volonter i događaj u bazi!");
-    },
+          try {
+              const response = await fetch("http://127.0.0.1:3000/api/volonter-dogadaj", {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(volonterDogadajData),
+              });
+
+              if (response.ok) {
+                  alert(`Informacija za volontera na događaju je uspješno dodana u bazu!`);
+                  this.resetForm();
+              } else {
+                  const errorMessage = await response.text();
+                  alert(`Greška prilikom unosa zapisa: ${errorMessage}`);
+              }
+          } catch (error) {
+              console.error("Greška prilikom unosa zapisa:", error);
+              alert("Došlo je do greške prilikom unosa zapisa.");
+          }
+        }, 
     
-    validirajOpis(opis) {
-        // Regex za zabranjene znakove
-        const zabranjeniZnakovi = /['"%;(){}<>]/;
-        return !zabranjeniZnakovi.test(opis);
-    },
+        validirajOpis(opis) {
+            // Regex za zabranjene znakove
+            const zabranjeniZnakovi = /['"%;(){}<>]/;
+            return !zabranjeniZnakovi.test(opis);
+        },
+
+        resetForm() {
+          this.broj_sati = "";
+          this.status =  "";
+          this.id_volonter = null;
+          this.id_dogadaj = null;
+        },
   },
 };
 </script>
