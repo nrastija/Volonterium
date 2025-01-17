@@ -36,7 +36,7 @@ export default {
       try {
             const response = await fetch("http://127.0.0.1:3000/api/grad");
             if (response.ok) {
-                this.drzave = await response.json();
+                this.gradovi = await response.json();
             } else {
                 console.error("Greška prilikom dohvaćanja država:", response.statusText);
             }
