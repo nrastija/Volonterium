@@ -3,6 +3,7 @@
 mod database;
 mod routes;
 
+use routes::dogadaj_organizator;
 // -- Rute za jednostavne tablice u bazi --
 use routes::drzava; use routes::organizator; use routes::dogadaj; use routes::volonter; use routes::vjestina; use routes::lokacija;
 
@@ -45,8 +46,7 @@ async fn main() {
         .route("/api/vjestina", get(vjestina::get_vjestina).post(vjestina::post_vjestina))
         .route("/api/grad", get(grad::get_grad).post(grad::post_grad))
         .route("/api/lokacija", get(lokacija::get_lokacija).post(lokacija::post_lokacija))
-
-
+        .route("/api/dogadaj-organizator", get(dogadaj_organizator::get_dogadaj_organizator).post(dogadaj_organizator::post_dogadaj))
         .with_state(db.clone())
         .layer(
             CorsLayer::new()

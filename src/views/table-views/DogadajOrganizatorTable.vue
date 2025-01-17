@@ -2,7 +2,7 @@
     <TableView 
       apiEndpoint="http://127.0.0.1:3000/api/dogadaj-organizator" 
       naslov="Tablica: Dogadaj_organizator" 
-      :headers="['Uloga organizatora', 'ID dogadaj', 'ID organizator', 'ID lokacija']" 
+      :headers="['Uloga organizatora', 'Komentar','ID dogadaj', 'ID organizator', 'ID lokacija']" 
     />
   </template>
   

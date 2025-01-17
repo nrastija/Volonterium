@@ -11,10 +11,6 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="adresa">Komentar:</label>
-            <input type="text" v-model="komentar" required />
-        </div>
-        <div class="form-group">
             <label for="id_dogadaj">Događaj:</label>
             <select class="form-control" id="id_dogadaj" v-model="id_dogadaj" required>
                 <option v-for="dogadaj in dogadaji" :key="dogadaj.id" :value="dogadaj.id">
@@ -38,7 +34,11 @@
                 </option>
             </select>
         </div>
-
+        <div class="form-group">
+            <label for="adresa">Komentar:</label>
+            <input type="text" v-model="komentar" required />
+        </div>
+    
         <button type="submit" class="btn-submit" @click.prevent="SaveDogadajOrganizator">Spremi organizatora dogadaja u BP</button>
     </form>
 </template>
@@ -97,14 +97,14 @@ export default {
         }
 
         // Validacija opisa za sigurnost   
-        if (!this.validirajUnos(this.uloga_organizatora) || !this.validirajOpis(this.komentar) || !this.validirajUnos(this.id_dogadaj) || 
+        if (!this.validirajUnos(this.uloga_organizatora) || !this.validirajUnos(this.komentar) || !this.validirajUnos(this.id_dogadaj) || 
             !this.validirajUnos(this.id_organizator) || !this.validirajUnos(this.id_lokacija)) {
             alert("Atribut sadrži nedozvoljene znakove! Molimo pokušajte ponovo.");
             return;
         }
 
         const dogadajOrganizatorData = {
-            uloga_organizatora: this.uloga_organizatora,
+            uloga: this.uloga_organizatora,
             komentar: this.komentar,
             id_dogadaj: this.id_dogadaj,
             id_organizator: this.id_organizator,
@@ -121,7 +121,7 @@ export default {
               });
 
               if (response.ok) {
-                  alert(`Organizator sa ulogom "${this.uloga}" za događaj je uspješno unesen u bazu podataka!`);
+                  alert(`Organizator sa ulogom "${this.uloga_organizatora}" za događaj je uspješno unesen u bazu podataka!`);
                   this.resetForm();
               } else {
                   const errorMessage = await response.text();
@@ -133,7 +133,7 @@ export default {
           }
         },
 
-        validirajOpis(opis) {
+        validirajUnos(opis) {
             // Regex za zabranjene znakove
             const zabranjeniZnakovi = /['"%;(){}<>]/;
             return !zabranjeniZnakovi.test(opis);

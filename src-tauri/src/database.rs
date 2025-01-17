@@ -2,6 +2,7 @@ use rusqlite::{Connection, Result};
 use tokio::sync::Mutex;
 use std::sync::Arc;
 
+
 use crate::routes::drzava::Drzava;
 use crate::routes::drzava::NewDrzava;
 
@@ -24,6 +25,7 @@ use crate::routes::grad::NewGrad;
 use crate::routes::lokacija::Lokacija;
 use crate::routes::lokacija::NewLokacija;
 
+use crate::routes::dogadaj_organizator::DogadajOrganizator;
 #[derive(Clone)]
 pub struct Database {
     conn: Arc<Mutex<Connection>>, 
@@ -326,6 +328,52 @@ impl Database {
             "Unešen novi zapis u tablicu lokacija: {}, {}",
             lokacija.adresa,
             lokacija.id_grad,
+        );
+
+        Ok(())
+    }
+    /* Tablica Lokacija */
+    pub async fn get_dogadaj_organizator_values(&self) -> Result<Vec<DogadajOrganizator>> {
+        let conn = self.conn.lock().await;
+        let mut stmt = conn.prepare("SELECT uloga_organizatora, komentar, id_dogadaj, id_organizator, id_lokacija FROM dogadaj_organizator")?;
+
+        let dogadaji_organizatori = stmt
+            .query_map([], |row| {
+                Ok(DogadajOrganizator {
+                    uloga: row.get(0)?,
+                    komentar: row.get(1)?,
+                    id_dogadaj: row.get(2)?,
+                    id_organizator: row.get(3)?,
+                    id_lokacija: row.get(4)?
+                })
+            })?
+            .collect::<Result<Vec<_>, _>>()?;
+
+        Ok(dogadaji_organizatori)
+    }
+    
+    pub async fn create_dogadaj_organizator(&self, dogadaj_organizator: DogadajOrganizator) -> Result<()> {
+        let conn = self.conn.lock().await;
+
+        let mut stmt = conn.prepare(
+            "INSERT INTO dogadaj_organizator (uloga_organizatora, komentar, id_dogadaj, id_organizator, id_lokacija) VALUES (?, ?, ?, ?, ?)",
+        )?;
+
+        stmt.execute((
+            &dogadaj_organizator.uloga,
+            &dogadaj_organizator.komentar,
+            &dogadaj_organizator.id_dogadaj,
+            &dogadaj_organizator.id_organizator,
+            &dogadaj_organizator.id_lokacija,
+        ))?;
+
+        println!(
+            "Unešen novi zapis u tablicu lokacija: {}, {}, {}, {}, {}",
+            dogadaj_organizator.uloga,
+            dogadaj_organizator.komentar,
+            dogadaj_organizator.id_dogadaj,
+            dogadaj_organizator.id_organizator,
+            dogadaj_organizator.id_lokacija,
         );
 
         Ok(())
