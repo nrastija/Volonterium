@@ -21,9 +21,18 @@
         </div>
 
         <div class="form-group">
-            <label for="ocjena">Ocjena (1-5):</label>
-            <input type="number" class="form-control" id="ocjena" v-model="ocjena" min="1" max="5" required />
+          <label for="ocjena">Ocjena (1-5): <span style="margin-left: 20px; font-weight: bold;"> {{ ocjena }}</span></label>
+          <input 
+              type="range" 
+              id="ocjena" 
+              class="form-control slider" 
+              v-model="ocjena" 
+              min="1" 
+              max="5" 
+              step="1"
+          />
         </div>
+
 
         <div class="form-group">
             <label for="komentar">Komentar:</label>
@@ -42,6 +51,7 @@ export default {
       id_dogadaj: null,
       ocjena: null,
       komentar: "",
+      ocjena: 3,
       volonteri: [],
       dogadaji: [],
     };
@@ -51,8 +61,18 @@ export default {
   },
   methods: {
     async fetchPodaci() {
-      this.volonteri = await (await fetch("/api/volonteri")).json();
-      this.dogadaji = await (await fetch("/api/dogadaji")).json();
+      try {
+            const response_volonteri = await fetch("http://127.0.0.1:3000/api/volonter");
+            const response_dogadaji = await fetch("http://127.0.0.1:3000/api/dogadaj");
+            if (response_volonteri.ok && response_dogadaji.ok) {
+                this.volonteri = await response_volonteri.json();
+                this.dogadaji = await response_dogadaji.json();
+            } else {
+                console.error("Greška prilikom dohvaćanja jedne ili više tablice:", response_dogadaji.statusText, response_volonteri.statusText);
+            }
+        } catch (error) {
+            console.error("Greška:", error);
+        }
     },
     async savePovratnaInformacija() {
       if (!this.id_volonter || !this.id_dogadaj || !this.ocjena) {
@@ -85,3 +105,7 @@ export default {
   },
 };
 </script>
+
+
+
+
