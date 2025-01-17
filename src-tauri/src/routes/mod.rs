@@ -11,3 +11,4 @@ pub mod lokacija;
 pub mod dogadaj_organizator;
 pub mod volonter_vjestina;
 pub mod volonter_dogadaj;
+pub mod povratna_informacija;

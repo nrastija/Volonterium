@@ -12,7 +12,6 @@ use crate::routes::organizator::NewOrganizator;
 use crate::routes::dogadaj::Dogadaj;
 use crate::routes::dogadaj::NewDogadaj;
 
-
 use crate::routes::volonter::NewVolonter;
 use crate::routes::volonter::Volonter;
 
@@ -26,8 +25,13 @@ use crate::routes::lokacija::Lokacija;
 use crate::routes::lokacija::NewLokacija;
 
 use crate::routes::dogadaj_organizator::DogadajOrganizator;
+
 use crate::routes::volonter_dogadaj::VolonterDogadaj;
+
 use crate::routes::volonter_vjestina::VolonterVjestina;
+
+use crate::routes::povratna_informacija::PovratnaInformacija;
+use crate::routes::povratna_informacija::NewPovratnaInformacija;
 #[derive(Clone)]
 pub struct Database {
     conn: Arc<Mutex<Connection>>, 
@@ -464,5 +468,73 @@ impl Database {
         );
 
         Ok(())
+    }
+
+    /* Tablica povratna_informacija */
+    pub async fn get_povratna_informacija_values(&self) -> Result<Vec<PovratnaInformacija>> {
+        let conn = self.conn.lock().await;
+        let mut stmt = conn.prepare("SELECT ocjena, komentar, datum, id_volonter, id_dogadaj FROM povratna_informacija")?;
+
+        let volotneri_dogadaji = stmt
+            .query_map([], |row| {
+                Ok(PovratnaInformacija {
+                    ocjena: row.get(0)?,
+                    komentar: row.get(1)?,
+                    datum: row.get(2)?,
+                    id_volonter: row.get(3)?,
+                    id_dogadaj: row.get(4)?,
+                })
+            })?
+            .collect::<Result<Vec<_>, _>>()?;
+
+        Ok(volotneri_dogadaji)
+    }
+    
+    pub async fn create_povratna_informacija(
+        &self,
+        povratna_informacija: NewPovratnaInformacija,
+    ) -> Result<()> {
+        let sql = "INSERT INTO povratna_informacija (ocjena, komentar, id_volonter, id_dogadaj) VALUES (?, ?, ?, ?)";
+    
+        // Debug SQL query and values
+        println!("Executing SQL: {}", sql);
+        println!(
+            "With values: ocjena = {}, komentar = {}, id_volonter = {}, id_dogadaj = {}",
+            povratna_informacija.ocjena,
+            povratna_informacija.komentar,
+            povratna_informacija.id_volonter,
+            povratna_informacija.id_dogadaj,
+        );
+    
+        // Use the connection within a limited scope
+        {
+            let conn = self.conn.lock().await;
+    
+            // Prepare the query
+            let mut stmt = match conn.prepare(sql) {
+                Ok(stmt) => stmt,
+                Err(e) => {
+                    println!("Error preparing query: {}", e);
+                    return Err(e);
+                }
+            };
+    
+            // Execute the query
+            match stmt.execute((
+                &povratna_informacija.ocjena,
+                &povratna_informacija.komentar,
+                &povratna_informacija.id_volonter,
+                &povratna_informacija.id_dogadaj,
+            )) {
+                Ok(rows_affected) => {
+                    println!("Query executed successfully. Rows affected: {}", rows_affected);
+                    Ok(())
+                }
+                Err(e) => {
+                    println!("Error executing query: {}", e);
+                    Err(e)
+                }
+            }
+        }
     }
 }

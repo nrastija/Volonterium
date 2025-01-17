@@ -7,7 +7,7 @@ mod routes;
 use routes::drzava; use routes::organizator; use routes::dogadaj; use routes::volonter; use routes::vjestina; 
 
 // -- Rute za slozene tablice u bazi --
-use routes::grad; use routes::lokacija; use routes::dogadaj_organizator; use routes::volonter_vjestina; use routes::volonter_dogadaj;
+use routes::grad; use routes::lokacija; use routes::dogadaj_organizator; use routes::volonter_vjestina; use routes::volonter_dogadaj; use routes::povratna_informacija;
 
 use axum::{http::{header, Method}, routing::get, Router};
 use database::Database;
@@ -48,6 +48,7 @@ async fn main() {
         .route("/api/dogadaj-organizator", get(dogadaj_organizator::get_dogadaj_organizator).post(dogadaj_organizator::post_dogadaj))
         .route("/api/volonter-vjestina", get(volonter_vjestina::get_volonter_vjestina).post(volonter_vjestina::post_volonter_vjestina))
         .route("/api/volonter-dogadaj", get(volonter_dogadaj::get_volonter_dogadaj).post(volonter_dogadaj::post_volonter_dogadaj))
+        .route("/api/povratna-informacija", get( povratna_informacija::get_povratna_informacija).post(povratna_informacija::post_povratna_informacija))
         .with_state(db.clone())
         .layer(
             CorsLayer::new()

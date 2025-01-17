@@ -92,7 +92,7 @@ export default {
         }
 
         const volonterDogadajData = {
-            ocjena: this.ocjena,
+            ocjena: parseInt(this.ocjena, 10),
             komentar: this.komentar,
             id_volonter: this.id_volonter,
             id_dogadaj: this.id_dogadaj,
@@ -108,7 +108,7 @@ export default {
               });
 
               if (response.ok) {
-                  alert(`Povratna informacija uspješno unesena u bazu! Pokrenut je trigger u bazi! Automatski je zapisan datum unosa povratne informacije!`);
+                  alert(`Povratna informacija uspješno unesena u bazu! Pokrenut je trigger u bazi! Automatski je zapisan datum i vrijeme unosa povratne informacije!`);
                   this.resetForm();
               } else {
                   const errorMessage = await response.text();
