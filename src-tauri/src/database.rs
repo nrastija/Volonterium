@@ -26,6 +26,7 @@ use crate::routes::lokacija::Lokacija;
 use crate::routes::lokacija::NewLokacija;
 
 use crate::routes::dogadaj_organizator::DogadajOrganizator;
+use crate::routes::volonter_vjestina::VolonterVjestina;
 #[derive(Clone)]
 pub struct Database {
     conn: Arc<Mutex<Connection>>, 
@@ -332,7 +333,7 @@ impl Database {
 
         Ok(())
     }
-    /* Tablica Lokacija */
+    /* Tablica dogadaj_organizator */
     pub async fn get_dogadaj_organizator_values(&self) -> Result<Vec<DogadajOrganizator>> {
         let conn = self.conn.lock().await;
         let mut stmt = conn.prepare("SELECT uloga_organizatora, komentar, id_dogadaj, id_organizator, id_lokacija FROM dogadaj_organizator")?;
@@ -374,6 +375,47 @@ impl Database {
             dogadaj_organizator.id_dogadaj,
             dogadaj_organizator.id_organizator,
             dogadaj_organizator.id_lokacija,
+        );
+
+        Ok(())
+    }
+
+    /* Tablica volonter_vjestina */
+    pub async fn get_volonter_vjestina_values(&self) -> Result<Vec<VolonterVjestina>> {
+        let conn = self.conn.lock().await;
+        let mut stmt = conn.prepare("SELECT razina_vjestine, id_volonter, id_vjestina FROM volonter_vjestina")?;
+
+        let volonteri_vjestine = stmt
+            .query_map([], |row| {
+                Ok(VolonterVjestina {
+                    razina: row.get(0)?,
+                    id_volonter: row.get(1)?,
+                    id_vjestina: row.get(2)?,
+                })
+            })?
+            .collect::<Result<Vec<_>, _>>()?;
+
+        Ok(volonteri_vjestine)
+    }
+    
+    pub async fn create_volontetr_vjestina(&self, volonter_vjestina: VolonterVjestina) -> Result<()> {
+        let conn = self.conn.lock().await;
+
+        let mut stmt = conn.prepare(
+            "INSERT INTO dogadaj_organizator (razina_vjestine, id_volonter, id_vjestina) VALUES (?, ?, ?)",
+        )?;
+
+        stmt.execute((
+            &volonter_vjestina.razina,
+            &volonter_vjestina.id_volonter,
+            &volonter_vjestina.id_vjestina,
+        ))?;
+
+        println!(
+            "Unešen novi zapis u tablicu lokacija: {}, {}, {}",
+            volonter_vjestina.razina,
+            volonter_vjestina.id_volonter,
+            volonter_vjestina.id_vjestina,
         );
 
         Ok(())

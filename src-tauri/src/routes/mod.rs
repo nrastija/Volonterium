@@ -9,3 +9,4 @@ pub mod vjestina;
 pub mod grad;
 pub mod lokacija;
 pub mod dogadaj_organizator;
+pub mod volonter_vjestina;
