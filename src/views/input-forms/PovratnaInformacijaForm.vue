@@ -91,17 +91,47 @@ export default {
             return;
         }
 
-        /*
-        Logika za unos baze
-        */
+        const volonterDogadajData = {
+            ocjena: this.ocjena,
+            komentar: this.komentar,
+            id_volonter: this.id_volonter,
+            id_dogadaj: this.id_dogadaj,
+        };
 
-        alert("Uspješno povezani volonter i događaj u bazi!");
-    },
-    validirajOpis(opis) {
-        // Regex za zabranjene znakove
-        const zabranjeniZnakovi = /['"%;(){}<>]/;
-        return !zabranjeniZnakovi.test(opis);
-    },
+          try {
+              const response = await fetch("http://127.0.0.1:3000/api/povratna-informacija", {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(volonterDogadajData),
+              });
+
+              if (response.ok) {
+                  alert(`Povratna informacija uspješno unesena u bazu! Pokrenut je trigger u bazi! Automatski je zapisan datum unosa povratne informacije!`);
+                  this.resetForm();
+              } else {
+                  const errorMessage = await response.text();
+                  alert(`Greška prilikom unosa zapisa: ${errorMessage}`);
+              }
+          } catch (error) {
+              console.error("Greška prilikom unosa zapisa:", error);
+              alert("Došlo je do greške prilikom unosa zapisa.");
+          }
+        }, 
+
+        validirajUnos(opis) {
+            // Regex za zabranjene znakove
+            const zabranjeniZnakovi = /['"%;(){}<>]/;
+            return !zabranjeniZnakovi.test(opis);
+        },
+
+        resetForm() {
+          this.ocjena = 3;
+          this.komentar =  "";
+          this.id_volonter = null;
+          this.id_dogadaj = null;
+        },
   },
 };
 </script>
