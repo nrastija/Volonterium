@@ -21,14 +21,19 @@
         </div>
 
         <div class="form-group">
-            <label for="broj_sati">Broj sati:</label>
-            <input type="number" class="form-control" id="broj_sati" v-model="broj_sati" required />
+            <label for="status">Status:</label>
+            <select class="form-control" id="status" v-model="status" required>
+                <option v-for="statusOption in statusOptions" :key="statusOption" :value="statusOption">
+                    {{ statusOption }}
+                </option>
+            </select>
         </div>
 
         <div class="form-group">
-            <label for="status">Status:</label>
-            <input type="text" class="form-control" id="status" v-model="status" required />
+            <label for="broj_sati">Broj sati:</label>
+            <input type="number" class="form-control" id="broj_sati" v-model="broj_sati" required />
         </div>
+        
 
         <button type="submit" @click.prevent="saveVolonterDogadaj">Spremi podatke u BP</button>
     </form>
@@ -44,6 +49,13 @@ export default {
       status: "",
       volonteri: [],
       dogadaji: [],
+      statusOptions: [
+        "Prijavljen",
+        "Potvrđen",
+        "Otkazano",
+        "Prisutan",
+        "Nije došao",
+      ],
     };
   },
   created() {
@@ -95,7 +107,7 @@ export default {
               });
 
               if (response.ok) {
-                  alert(`Informacija za volontera na događaju je uspješno dodana u bazu!`);
+                  alert(`Informacija za volontera na događaju je uspješno dodana u bazu! Pokrenut je trigger u bazi! Broj volontera za događaj ${this.id_dogadaj} je smanjen za 1!`);
                   this.resetForm();
               } else {
                   const errorMessage = await response.text();
@@ -107,7 +119,7 @@ export default {
           }
         }, 
     
-        validirajOpis(opis) {
+        validirajUnos(opis) {
             // Regex za zabranjene znakove
             const zabranjeniZnakovi = /['"%;(){}<>]/;
             return !zabranjeniZnakovi.test(opis);

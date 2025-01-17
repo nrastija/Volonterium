@@ -447,7 +447,7 @@ impl Database {
         let mut stmt = conn.prepare(
             "INSERT INTO volonter_dogadaj (id_volonter, id_dogadaj, broj_sati, status) VALUES (?, ?, ?, ?)",
         )?;
-
+        
         stmt.execute((
             &volonter_dogadaj.id_volonter,
             &volonter_dogadaj.id_dogadaj,
@@ -456,7 +456,7 @@ impl Database {
         ))?;
 
         println!(
-            "Unešen novi zapis u tablicu lokacija: {}, {}, {},{}",
+            "Unešen novi zapis u tablicu lokacija: {}, {}, {}, {}",
             volonter_dogadaj.id_volonter,
             volonter_dogadaj.id_dogadaj,
             volonter_dogadaj.broj_sati,
