@@ -1,6 +1,6 @@
 <template>
     <TableView 
-      apiEndpoint="/api/dogadaj-organizator" 
+      apiEndpoint="http://127.0.0.1:3000/api/dogadaj-organizator" 
       naslov="Tablica: Dogadaj_organizator" 
       :headers="['Uloga organizatora', 'ID dogadaj', 'ID organizator', 'ID lokacija']" 
     />

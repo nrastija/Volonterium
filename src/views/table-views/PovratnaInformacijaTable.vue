@@ -1,6 +1,6 @@
 <template>
     <TableView 
-      apiEndpoint="/api/povratna-informacija" 
+      apiEndpoint="http://127.0.0.1:3000/api/povratna-informacija" 
       naslov="Tablica: Povratna_informacija" 
       :headers="['Ocjena', 'Komentar', 'Datum', 'Volonter ID', 'Dogadaj ID']" 
     />
