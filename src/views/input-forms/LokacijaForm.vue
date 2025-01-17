@@ -33,8 +33,16 @@ export default {
   },
   methods: {
     async fetchGradovi() {
-      const response = await fetch("api/gradovi"); 
-      this.gradovi = await response.json();
+      try {
+            const response = await fetch("http://127.0.0.1:3000/api/grad");
+            if (response.ok) {
+                this.drzave = await response.json();
+            } else {
+                console.error("Greška prilikom dohvaćanja država:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Greška:", error);
+        }
     },
 
     async SaveLokacija() {
@@ -49,16 +57,37 @@ export default {
             return;
         }
 
-        /*
-        Logika za unos baze
-        */
+        const lokacijaData = {
+            adresa: this.adresa,
+            id_grad: this.id_grad,
+        };
 
-        alert("Lokacija " + this.naziv + " je uspješno unesena u bazu podataka!");
-    },
-    validirajUnos(opis) {
-            // Regex za zabranjene znakove
-            const zabranjeniZnakovi = /['"%;(){}<>]/;
-            return !zabranjeniZnakovi.test(opis);
+          try {
+              const response = await fetch("http://127.0.0.1:3000/api/lokacija", {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(lokacijaData),
+              });
+
+              if (response.ok) {
+                  alert(`Lokacija sa adresom "${this.adresa}" je uspješno unesena u bazu podataka!`);
+                  this.resetForm();
+              } else {
+                  const errorMessage = await response.text();
+                  alert(`Greška prilikom unosa lokacije: ${errorMessage}`);
+              }
+          } catch (error) {
+              console.error("Greška prilikom unosa lokacije:", error);
+              alert("Došlo je do greške prilikom unosa lokacije.");
+          }
+        },
+        
+      validirajUnos(opis) {
+              // Regex za zabranjene znakove
+              const zabranjeniZnakovi = /['"%;(){}<>]/;
+              return !zabranjeniZnakovi.test(opis);
         },
   },
 };
