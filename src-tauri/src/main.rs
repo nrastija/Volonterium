@@ -4,7 +4,7 @@ mod database;
 mod routes;
 
 // -- Rute za jednostavne tablice u bazi --
-use routes::drzava; use routes::organizator; use routes::dogadaj; use routes::volonter; use routes::vjestina;
+use routes::drzava; use routes::organizator; use routes::dogadaj; use routes::volonter; use routes::vjestina; use routes::lokacija;
 
 // -- Rute za slozene tablice u bazi --
 use routes::grad;
@@ -44,6 +44,8 @@ async fn main() {
         .route("/api/volonter", get(volonter::get_volonter).post(volonter::post_volonter))
         .route("/api/vjestina", get(vjestina::get_vjestina).post(vjestina::post_vjestina))
         .route("/api/grad", get(grad::get_grad).post(grad::post_grad))
+        .route("/api/lokacija", get(lokacija::get_lokacija).post(lokacija::post_lokacija))
+
 
         .with_state(db.clone())
         .layer(

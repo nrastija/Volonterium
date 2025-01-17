@@ -21,6 +21,9 @@ use crate::routes::vjestina::NewVjestina;
 use crate::routes::grad::Grad;
 use crate::routes::grad::NewGrad;
 
+use crate::routes::lokacija::Lokacija;
+use crate::routes::lokacija::NewLokacija;
+
 #[derive(Clone)]
 pub struct Database {
     conn: Arc<Mutex<Connection>>, 
@@ -241,7 +244,7 @@ impl Database {
         ))?;
 
         println!(
-            "Unešen novi zapis u tablicu volonter: {}, {}",
+            "Unešen novi zapis u tablicu vjestina: {}, {}",
             vjestina.naziv,
             vjestina.opis,
         );
@@ -281,9 +284,48 @@ impl Database {
         ))?;
 
         println!(
-            "Unešen novi zapis u tablicu volonter: {}, {}",
+            "Unešen novi zapis u tablicu grad: {}, {}",
             grad.naziv,
             grad.id_drzava,
+        );
+
+        Ok(())
+    }
+
+    /* Tablica Lokacija */
+    pub async fn get_lokacija_values(&self) -> Result<Vec<Lokacija>> {
+        let conn = self.conn.lock().await;
+        let mut stmt = conn.prepare("SELECT id, adresa, id_grad FROM lokacija")?;
+
+        let lokacija = stmt
+            .query_map([], |row| {
+                Ok(Lokacija {
+                    id: row.get(0)?,
+                    adresa: row.get(1)?,
+                    id_grad: row.get(2)?,
+                })
+            })?
+            .collect::<Result<Vec<_>, _>>()?;
+
+        Ok(lokacija)
+    }
+    
+    pub async fn create_lokacija(&self, lokacija: NewLokacija) -> Result<()> {
+        let conn = self.conn.lock().await;
+
+        let mut stmt = conn.prepare(
+            "INSERT INTO lokacija (adresa, id_grad) VALUES (?, ?)",
+        )?;
+
+        stmt.execute((
+            &lokacija.adresa,
+            &lokacija.id_grad,
+        ))?;
+
+        println!(
+            "Unešen novi zapis u tablicu lokacija: {}, {}",
+            lokacija.adresa,
+            lokacija.id_grad,
         );
 
         Ok(())
