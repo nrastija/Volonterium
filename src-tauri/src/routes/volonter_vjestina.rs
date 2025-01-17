@@ -25,11 +25,11 @@ pub async fn get_volonter_vjestina(State(db): State<Arc<Database>>) -> Result<Js
 }
 
 
-pub async fn post_dogadaj(
+pub async fn post_volonter_vjestina(
     State(db): State<Arc<Database>>,
     Json(new_volonter_vjestina): Json<VolonterVjestina>,
 ) -> StatusCode {
-    match db.create_volontetr_vjestina(new_volonter_vjestina).await {
+    match db.create_volonter_vjestina(new_volonter_vjestina).await {
         Ok(_) => StatusCode::CREATED,
         Err(_) => StatusCode::INTERNAL_SERVER_ERROR,
     }

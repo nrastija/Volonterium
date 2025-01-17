@@ -398,11 +398,11 @@ impl Database {
         Ok(volonteri_vjestine)
     }
     
-    pub async fn create_volontetr_vjestina(&self, volonter_vjestina: VolonterVjestina) -> Result<()> {
+    pub async fn create_volonter_vjestina(&self, volonter_vjestina: VolonterVjestina) -> Result<()> {
         let conn = self.conn.lock().await;
 
         let mut stmt = conn.prepare(
-            "INSERT INTO dogadaj_organizator (razina_vjestine, id_volonter, id_vjestina) VALUES (?, ?, ?)",
+            "INSERT INTO volonter_vjestina (razina_vjestine, id_volonter, id_vjestina) VALUES (?, ?, ?)",
         )?;
 
         stmt.execute((

@@ -29,7 +29,7 @@
             </select>
         </div>
 
-        <button type="submit" @click.prevent="SaveVjestina">Spremi vjestinu u BP</button>
+        <button type="submit" @click.prevent="saveVolonterVjestina">Spremi vjestinu u BP</button>
     </form>
 </template>
 
@@ -43,6 +43,7 @@ export default {
         "Napredno",
         "Ekspertno",
       ],
+      komentar: "",
       razina_vjestine: null,
       id_volonter: null,
       id_vjestina: null,
@@ -68,7 +69,7 @@ export default {
             console.error("Greška:", error);
         }
     },
-    async saveDogadajOrganizator() {
+    async saveVolonterVjestina() {
         if (!this.razina_vjestine || !this.id_vjestina || !this.id_volonter) {
             alert("Molimo unesite sva polja!");
             return;
@@ -108,7 +109,7 @@ export default {
           }
         }, 
 
-        validirajOpis(opis) {
+        validirajUnos(opis) {
             // Regex za zabranjene znakove
             const zabranjeniZnakovi = /['"%;(){}<>]/;
             return !zabranjeniZnakovi.test(opis);
