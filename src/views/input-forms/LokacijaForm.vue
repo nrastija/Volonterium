@@ -46,13 +46,13 @@ export default {
     },
 
     async SaveLokacija() {
-        if (!this.naziv || !this.id_grad) {
+        if (!this.adresa || !this.id_grad) {
             alert("Molimo unesite i odaberite sva polja!");
             return;
         }
 
         // Validacija opisa za sigurnost   
-        if (!this.validirajUnos(this.naziv)) {
+        if (!this.validirajUnos(this.adresa)) {
             alert("Atribut sadrži nedozvoljene znakove! Molimo pokušajte ponovo.");
             return;
         }
@@ -89,6 +89,11 @@ export default {
               const zabranjeniZnakovi = /['"%;(){}<>]/;
               return !zabranjeniZnakovi.test(opis);
         },
+
+        resetForm() {
+        this.adresa = "";
+        this.id_grad = null;
+      },
   },
 };
 </script>
