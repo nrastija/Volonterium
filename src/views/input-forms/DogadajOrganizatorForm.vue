@@ -11,6 +11,10 @@
             </select>
         </div>
         <div class="form-group">
+            <label for="adresa">Komentar:</label>
+            <input type="text" v-model="komentar" required />
+        </div>
+        <div class="form-group">
             <label for="id_dogadaj">Događaj:</label>
             <select class="form-control" id="id_dogadaj" v-model="id_dogadaj" required>
                 <option v-for="dogadaj in dogadaji" :key="dogadaj.id" :value="dogadaj.id">
@@ -56,6 +60,7 @@ export default {
         "Moderator",
         "Volonterski menadžer",
       ],
+      komenmtar: "",
       uloga_organizatora: null,
       id_dogadaj: null,
       id_organizator: null,
@@ -86,13 +91,13 @@ export default {
         }
     },
     async SaveDogadajOrganizator() {
-        if (!this.uloga_organizatora || !this.id_dogadaj || !this.id_organizator || !this.id_lokacija) {
+        if (!this.uloga_organizatora || !this.komentar || !this.id_dogadaj || !this.id_organizator || !this.id_lokacija) {
             alert("Molimo unesite sva polja!");
             return;
         }
 
         // Validacija opisa za sigurnost   
-        if (!this.validirajUnos(this.uloga_organizatora) || !this.validirajUnos(this.id_dogadaj) || 
+        if (!this.validirajUnos(this.uloga_organizatora) || !this.validirajOpis(this.komentar) || !this.validirajUnos(this.id_dogadaj) || 
             !this.validirajUnos(this.id_organizator) || !this.validirajUnos(this.id_lokacija)) {
             alert("Atribut sadrži nedozvoljene znakove! Molimo pokušajte ponovo.");
             return;
@@ -100,6 +105,7 @@ export default {
 
         const dogadajOrganizatorData = {
             uloga_organizatora: this.uloga_organizatora,
+            komentar: this.komentar,
             id_dogadaj: this.id_dogadaj,
             id_organizator: this.id_organizator,
             id_lokacija: this.id_lokacija,
@@ -135,6 +141,7 @@ export default {
 
         resetForm() {
         this.uloga_organizatora = "";
+        this.komentar = "";
         this.id_dogadaj = null;
         this.id_organizator = null;
         this.id_lokacija = null;

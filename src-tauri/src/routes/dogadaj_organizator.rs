@@ -1,0 +1,46 @@
+use axum::{Json, extract::State, http::StatusCode};
+use crate::database::Database;
+use serde::{Deserialize, Serialize};
+use chrono::NaiveDateTime;
+use std::sync::Arc;
+
+#[derive(Serialize, Debug)]
+pub struct dogadaj_organizator {
+    pub id: i32,
+    pub uloga: String,
+    pub datum_vrijeme: String,
+    pub opis: String,
+    pub potrebni_volonteri: i32,
+}
+
+#[derive(Deserialize)]
+pub struct new_dogadaj_organizator {
+    pub naziv: String,
+    pub datum_vrijeme: NaiveDateTime,
+    pub opis: String,
+    pub potrebni_volonteri: i32,
+}
+
+pub async fn get_dogadaj(State(db): State<Arc<Database>>) -> Result<Json<Vec<Dogadaj>>, StatusCode> {
+    match db.get_dogadaj_values().await {
+        Ok(dogadaji) => {
+            println!("Fetched dogadaji: {:?}", dogadaji); //Log fetch
+            Ok(Json(dogadaji))
+        }
+        Err(err) => {
+            eprintln!("Error fetching dogadaji: {:?}", err); // Log error
+            Err(StatusCode::INTERNAL_SERVER_ERROR)
+        }
+    }
+}
+
+
+pub async fn post_dogadaj(
+    State(db): State<Arc<Database>>,
+    Json(new_dogadaj): Json<NewDogadaj>,
+) -> StatusCode {
+    match db.create_dogadaj(new_dogadaj).await {
+        Ok(_) => StatusCode::CREATED,
+        Err(_) => StatusCode::INTERNAL_SERVER_ERROR,
+    }
+}

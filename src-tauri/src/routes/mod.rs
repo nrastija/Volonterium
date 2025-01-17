@@ -8,3 +8,4 @@ pub mod vjestina;
 //-- Slozene tablice--
 pub mod grad;
 pub mod lokacija;
+pub mod dogadaj_organizator;
