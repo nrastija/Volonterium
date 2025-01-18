@@ -1,4 +1,4 @@
-use axum::{Json, extract::State, http::StatusCode};
+use axum::{Json, extract::{State, Path}, http::StatusCode};
 use crate::database::Database;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
@@ -8,7 +8,7 @@ pub struct Organizator {
     pub id: i32,
     pub naziv: String,
     pub kontakt_osoba: String,
-    pub kontakt_telefon: String,
+    pub telefon: String,
     pub mail: String,
 }
 
@@ -41,4 +41,29 @@ pub async fn post_organizator(
         Ok(_) => StatusCode::CREATED,
         Err(_) => StatusCode::INTERNAL_SERVER_ERROR,
     }
+}
+
+pub async fn put_organizator(
+    State(db): State<Arc<Database>>,
+    Path(id): Path<i32>,
+    Json(updated_organizator): Json<NewOrganizator>,
+) -> Result<(), StatusCode> {
+    db.update_organizator(id, updated_organizator.naziv, updated_organizator.kontakt_osoba, updated_organizator.telefon, updated_organizator.mail)
+        .await
+        .map_err(|err| {
+            eprintln!("Error updating organizator: {:?}", err);
+            StatusCode::INTERNAL_SERVER_ERROR
+        })
+}
+
+pub async fn delete_organizator(
+    State(db): State<Arc<Database>>,
+    Path(id): Path<i32>,
+) -> Result<(), StatusCode> {
+    db.delete_organizator(id)
+        .await
+        .map_err(|err| {
+            eprintln!("Error deleting organizator: {:?}", err);
+            StatusCode::INTERNAL_SERVER_ERROR
+        })
 }

@@ -118,7 +118,7 @@ impl Database {
                     id: row.get(0)?,
                     naziv: row.get(1)?,
                     kontakt_osoba: row.get(2)?,
-                    kontakt_telefon: row.get(3)?,
+                    telefon: row.get(3)?,
                     mail: row.get(4)?,
                 })
             })?
@@ -153,6 +153,72 @@ impl Database {
         Ok(())
     }
 
+    pub async fn update_organizator(
+        &self,
+        id: i32,
+        naziv: String,
+        kontakt_osoba: String,
+        telefon: String,
+        mail: String,
+    ) -> Result<()> {
+        let conn = self.conn.lock().await;
+    
+        // Debug log prije pokretanja SQL upita
+        println!(
+            "Pokušavam ažurirati organizatora s podacima:\n\
+             id={}, naziv={}, kontakt_osoba={}, telefon={}, mail={}",
+            id, naziv, kontakt_osoba, telefon, mail
+        );
+    
+        let sql_query = "UPDATE organizator SET naziv = ?, kontakt_osoba = ?, telefon = ?, mail = ? WHERE id = ?";
+        println!("SQL upit: {}", sql_query);
+        println!(
+            "Vrijednosti za upit:\n\
+             naziv='{}', kontakt_osoba='{}', telefon='{}', mail='{}', id={}",
+            naziv, kontakt_osoba, telefon, mail, id
+        );
+    
+        let mut stmt = match conn.prepare(sql_query) {
+            Ok(stmt) => stmt,
+            Err(err) => {
+                eprintln!("Greška prilikom pripreme SQL upita: {:?}", err);
+                return Err(err.into());
+            }
+        };
+    
+        match stmt.execute((naziv.clone(), kontakt_osoba.clone(), telefon.clone(), mail.clone(), id)) {
+            Ok(affected_rows) => {
+                if affected_rows == 0 {
+                    println!(
+                        "Nijedan zapis nije ažuriran. Provjerite postoji li organizator s id={}",
+                        id
+                    );
+                }
+                println!(
+                    "Uspješno ažuriran zapis u tablici organizator: id={}, naziv={}, kontakt_osoba={}, telefon={}, mail={}",
+                    id, naziv, kontakt_osoba, telefon, mail
+                );
+                Ok(())
+            }
+            Err(err) => {
+                eprintln!("Greška prilikom izvršavanja SQL upita: {:?}", err);
+                Err(err.into())
+            }
+        }
+    }
+
+    pub async fn delete_organizator(&self, id: i32) -> Result<()> {
+        let conn = self.conn.lock().await;
+    
+        let mut stmt = conn.prepare("DELETE FROM organizator WHERE id = ?")?;
+    
+        stmt.execute((id,))?;
+    
+        println!("Obrisan zapis iz tablice organizator: id={}", id);
+    
+        Ok(())
+    }    
+
     /* Tablica Dogadaj */
     pub async fn get_dogadaj_values(&self) -> Result<Vec<Dogadaj>> {
         let conn = self.conn.lock().await;
@@ -164,7 +230,7 @@ impl Database {
                     id: row.get(0)?,
                     naziv: row.get(1)?,
                     datum_vrijeme: row.get::<_, String>(2)?,
-                    opis: row.get(3)?,
+                    opis: row.get::<_, Option<String>>(3)?,
                     potrebni_volonteri: row.get(4)?,
                 })
             })?
@@ -183,7 +249,7 @@ impl Database {
         stmt.execute((
             &dogadaj.naziv,
             &dogadaj.datum_vrijeme.format("%Y-%m-%d %H:%M:%S").to_string(),
-            &dogadaj.opis,
+            &dogadaj.opis.as_deref(),
             &dogadaj.potrebni_volonteri,
         ))?;
 
@@ -191,7 +257,7 @@ impl Database {
             "Unešen novi zapis u tablicu dogadaj: {}, {}, {}, {}",
             dogadaj.naziv,
             dogadaj.datum_vrijeme,
-            dogadaj.opis,
+            dogadaj.opis.clone().unwrap_or("N/A".to_string()),
             dogadaj.potrebni_volonteri
         );
 
