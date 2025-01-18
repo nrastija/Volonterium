@@ -8,7 +8,7 @@
   
   <p>Projektni plan i ideja za rješenje:</p>
   <ul class="projectList">
-    <li>Naziv teme projekta: Upravljanje posudbama i inventarom u knjižnici</li>
+    <li>Naziv teme projekta: Upravljanje volonterskim događajima i resursima</li>
     <br>
     <li>Predviđeni Alati:</li>
     <li>1.	Konceptualno modeliranje ERA modela: ERDPlus <a href="https://erdplus.com/">[ErdPlus]</a></li>

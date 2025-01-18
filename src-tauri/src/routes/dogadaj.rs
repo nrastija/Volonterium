@@ -9,7 +9,7 @@ pub struct Dogadaj {
     pub id: i32,
     pub naziv: String,
     pub datum_vrijeme: String,
-    pub opis: String,
+    pub opis: Option<String>,
     pub potrebni_volonteri: i32,
 }
 
@@ -17,7 +17,7 @@ pub struct Dogadaj {
 pub struct NewDogadaj {
     pub naziv: String,
     pub datum_vrijeme: NaiveDateTime,
-    pub opis: String,
+    pub opis: Option<String>,
     pub potrebni_volonteri: i32,
 }
 
