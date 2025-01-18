@@ -83,6 +83,31 @@ impl Database {
         Ok(())
     }
 
+    pub async fn update_drzava(&self, id: i32, naziv: String) -> Result<()> {
+        let conn = self.conn.lock().await;
+    
+        let naziv_clone = naziv.clone();
+        let mut stmt = conn.prepare("UPDATE drzava SET naziv = ? WHERE id = ?")?;
+    
+        stmt.execute((naziv, id))?;
+    
+        println!("Ažuriran zapis u tablici drzava: id={}, naziv={}", id, naziv_clone);
+    
+        Ok(())
+    }
+
+    pub async fn delete_drzava(&self, id: i32) -> Result<()> {
+        let conn = self.conn.lock().await;
+    
+        let mut stmt = conn.prepare("DELETE FROM drzava WHERE id = ?")?;
+    
+        stmt.execute((id,))?;
+    
+        println!("Obrisan zapis iz tablice drzava: id={}", id);
+    
+        Ok(())
+    }    
+
     /* Tablica Organizator */
     pub async fn get_organizator_values(&self) -> Result<Vec<Organizator>> {
         let conn = self.conn.lock().await; 

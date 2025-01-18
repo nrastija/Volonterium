@@ -3,13 +3,14 @@
 mod database;
 mod routes;
 
+
 // -- Rute za jednostavne tablice u bazi --
 use routes::drzava; use routes::organizator; use routes::dogadaj; use routes::volonter; use routes::vjestina; 
 
 // -- Rute za slozene tablice u bazi --
 use routes::grad; use routes::lokacija; use routes::dogadaj_organizator; use routes::volonter_vjestina; use routes::volonter_dogadaj; use routes::povratna_informacija;
 
-use axum::{http::{header, Method}, routing::get, Router};
+use axum::{http::{header, Method}, routing::get, routing::put, Router};
 use database::Database;
 use std::sync::Arc;
 use std::net::SocketAddr;
@@ -39,6 +40,8 @@ async fn main() {
     // Definiranje ruta i putanja
     let app = Router::new()
         .route("/api/drzava", get(drzava::get_drzava).post(drzava::post_drzava))
+        .route("/api/drzava/:id", put(drzava::put_drzava).delete(drzava::delete_drzava))
+
         .route("/api/organizator", get(organizator::get_organizator).post(organizator::post_organizator))
         .route("/api/dogadaj", get(dogadaj::get_dogadaj).post(dogadaj::post_dogadaj))
         .route("/api/volonter", get(volonter::get_volonter).post(volonter::post_volonter))
@@ -53,7 +56,7 @@ async fn main() {
         .layer(
             CorsLayer::new()
                 .allow_origin(AllowOrigin::any())   
-                .allow_methods([Method::GET, Method::POST])
+                .allow_methods([Method::GET, Method::POST, Method::PUT, Method::DELETE])
                 .allow_headers(AllowHeaders::list([header::CONTENT_TYPE]))
         );
 
