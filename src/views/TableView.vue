@@ -38,7 +38,84 @@
   </div>
 </template>
 
+<script>
+export default {
+  props: {
+    apiEndpoint: String,
+    naslov: String,
+    headers: Array,
+  },
+  data() {
+    return {
+      data: [],
+      showModal: false,
+      selectedRow: null,
+    };
+  },
+  created() {
+    this.fetchData();
+  },
+  methods: {
+    async fetchData() {
+      try {
+        const response = await fetch(this.apiEndpoint);
+        if (response.ok) {
+          this.data = await response.json();
+        } else {
+          console.error("Greška prilikom dohvaćanja podataka.");
+        }
+      } catch (error) {
+        console.error("Greška:", error);
+      }
+    },
+    async deleteRow(id) {
+      if (!confirm("Jeste li sigurni da želite obrisati zapis?")) return;
 
+      try {
+        const response = await fetch(`${this.apiEndpoint}/${id}`, {
+          method: "DELETE",
+        });
+        if (response.ok) {
+          alert("Zapis uspješno obrisan.");
+          this.fetchData(); // Osvježi tablicu
+        } else {
+          console.error("Greška prilikom brisanja zapisa.");
+        }
+      } catch (error) {
+        console.error("Greška:", error);
+      }
+    },
+    editRow(row) {
+      this.selectedRow = { ...row }; // Kopiraj podatke retka
+      this.showModal = true; // Prikaži modal
+    },
+    async updateRow() {
+      try {
+        const response = await fetch(`${this.apiEndpoint}/${this.selectedRow.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(this.selectedRow),
+        });
+        if (response.ok) {
+          alert("Zapis uspješno ažuriran.");
+          this.fetchData(); 
+          this.closeModal();
+        } else {
+          console.error("Greška prilikom ažuriranja zapisa.");
+        }
+      } catch (error) {
+        console.error("Greška:", error);
+      }
+    },
+    closeModal() {
+      this.showModal = false;
+      this.selectedRow = null;
+    },
+  },
+};
+</script>
 
 <style scoped>
 .table-wrapper {
