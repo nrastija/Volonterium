@@ -1,3 +1,4 @@
+use chrono::NaiveDateTime;
 use rusqlite::{Connection, Result};
 use tokio::sync::Mutex;
 use std::sync::Arc;
@@ -153,58 +154,20 @@ impl Database {
         Ok(())
     }
 
-    pub async fn update_organizator(
-        &self,
-        id: i32,
-        naziv: String,
-        kontakt_osoba: String,
-        telefon: String,
-        mail: String,
-    ) -> Result<()> {
+    pub async fn update_organizator(&self, id: i32, naziv: String, kontakt_osoba: String, telefon: String, mail: String) -> Result<()> {
         let conn = self.conn.lock().await;
     
-        // Debug log prije pokretanja SQL upita
-        println!(
-            "Pokušavam ažurirati organizatora s podacima:\n\
-             id={}, naziv={}, kontakt_osoba={}, telefon={}, mail={}",
-            id, naziv, kontakt_osoba, telefon, mail
-        );
+        let naziv_clone = naziv.clone();
+        let kontakt_osoba_clone = kontakt_osoba.clone();
+        let telefon_clone = telefon.clone();
+        let mail_clone = mail.clone();
+        let mut stmt = conn.prepare("UPDATE organizator SET naziv = ?, kontakt_osoba = ?, telefon = ?, mail = ?  WHERE id = ?")?;
     
-        let sql_query = "UPDATE organizator SET naziv = ?, kontakt_osoba = ?, telefon = ?, mail = ? WHERE id = ?";
-        println!("SQL upit: {}", sql_query);
-        println!(
-            "Vrijednosti za upit:\n\
-             naziv='{}', kontakt_osoba='{}', telefon='{}', mail='{}', id={}",
-            naziv, kontakt_osoba, telefon, mail, id
-        );
+        stmt.execute((naziv, kontakt_osoba, telefon, mail, id))?;
     
-        let mut stmt = match conn.prepare(sql_query) {
-            Ok(stmt) => stmt,
-            Err(err) => {
-                eprintln!("Greška prilikom pripreme SQL upita: {:?}", err);
-                return Err(err.into());
-            }
-        };
+        println!("Ažuriran zapis u tablici organizator: id={}, naziv={}, kontakt_osoba={}, telefon={}, mail={}", id, naziv_clone, kontakt_osoba_clone, telefon_clone, mail_clone);
     
-        match stmt.execute((naziv.clone(), kontakt_osoba.clone(), telefon.clone(), mail.clone(), id)) {
-            Ok(affected_rows) => {
-                if affected_rows == 0 {
-                    println!(
-                        "Nijedan zapis nije ažuriran. Provjerite postoji li organizator s id={}",
-                        id
-                    );
-                }
-                println!(
-                    "Uspješno ažuriran zapis u tablici organizator: id={}, naziv={}, kontakt_osoba={}, telefon={}, mail={}",
-                    id, naziv, kontakt_osoba, telefon, mail
-                );
-                Ok(())
-            }
-            Err(err) => {
-                eprintln!("Greška prilikom izvršavanja SQL upita: {:?}", err);
-                Err(err.into())
-            }
-        }
+        Ok(())
     }
 
     pub async fn delete_organizator(&self, id: i32) -> Result<()> {
@@ -262,7 +225,42 @@ impl Database {
         );
 
         Ok(())
+    }  
+
+    pub async fn update_dogadaj(&self, id: i32, naziv: String, datum_vrijeme: NaiveDateTime, opis: Option<String>, potrebni_volonteri: i32) -> Result<()> {
+        let conn = self.conn.lock().await;
+        
+        let opis = opis.unwrap_or_else(|| "N/A".to_string());
+        let datum_vrijeme_str = datum_vrijeme.format("%Y-%m-%d %H:%M:%S").to_string();
+
+        let naziv_clone = naziv.clone();
+        let datum_vrijeme_clone = datum_vrijeme.clone();
+        let opis_clone = opis.clone();
+        let potrebni_volonteri_clone = potrebni_volonteri.clone();
+        
+        
+
+        let mut stmt = conn.prepare("UPDATE dogadaj SET naziv = ?, datum_vrijeme = ?, opis = ?, potrebni_volonteri = ? WHERE id = ?")?;
+        
+        stmt.execute((naziv, datum_vrijeme_str, opis, potrebni_volonteri, id))?;
+    
+        println!("Ažuriran zapis u tablici dogadaj: id={}, naziv={}, datum_vrijeme={}, opis={}, potrebni_volonteri={},", id, naziv_clone, datum_vrijeme_clone, opis_clone, potrebni_volonteri_clone);
+    
+        Ok(())
     }
+
+    pub async fn delete_dogadaj(&self, id: i32) -> Result<()> {
+        let conn = self.conn.lock().await;
+    
+        let mut stmt = conn.prepare("DELETE FROM dogadaj WHERE id = ?")?;
+    
+        stmt.execute((id,))?;
+    
+        println!("Obrisan zapis iz tablice dogadaj: id={}", id);
+    
+        Ok(())
+    }  
+
 
     /* Tablica Volonter */
     pub async fn get_volonter_values(&self) -> Result<Vec<Volonter>> {

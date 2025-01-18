@@ -1,4 +1,4 @@
-use axum::{Json, extract::State, http::StatusCode};
+use axum::{Json, extract::{State, Path}, http::StatusCode};
 use crate::database::Database;
 use serde::{Deserialize, Serialize};
 use chrono::NaiveDateTime;
@@ -43,4 +43,29 @@ pub async fn post_dogadaj(
         Ok(_) => StatusCode::CREATED,
         Err(_) => StatusCode::INTERNAL_SERVER_ERROR,
     }
+}
+
+pub async fn put_dogadaj(
+    State(db): State<Arc<Database>>,
+    Path(id): Path<i32>,
+    Json(updated_organizator): Json<NewDogadaj>,
+) -> Result<(), StatusCode> {
+    db.update_dogadaj(id, updated_organizator.naziv, updated_organizator.datum_vrijeme, updated_organizator.opis, updated_organizator.potrebni_volonteri)
+        .await
+        .map_err(|err| {
+            eprintln!("Error updating organizator: {:?}", err);
+            StatusCode::INTERNAL_SERVER_ERROR
+        })
+}
+
+pub async fn delete_dogadaj(
+    State(db): State<Arc<Database>>,
+    Path(id): Path<i32>,
+) -> Result<(), StatusCode> {
+    db.delete_dogadaj(id)
+        .await
+        .map_err(|err| {
+            eprintln!("Error deleting organizator: {:?}", err);
+            StatusCode::INTERNAL_SERVER_ERROR
+        })
 }

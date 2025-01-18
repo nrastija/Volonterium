@@ -46,6 +46,8 @@ async fn main() {
         .route("/api/organizator/:id", put(organizator::put_organizator).delete(organizator::delete_organizator))
 
         .route("/api/dogadaj", get(dogadaj::get_dogadaj).post(dogadaj::post_dogadaj))
+        .route("/api/dogadaj/:id", put(dogadaj::put_dogadaj).delete(dogadaj::delete_dogadaj))
+
         .route("/api/volonter", get(volonter::get_volonter).post(volonter::post_volonter))
         .route("/api/vjestina", get(vjestina::get_vjestina).post(vjestina::post_vjestina))
         .route("/api/grad", get(grad::get_grad).post(grad::post_grad))
