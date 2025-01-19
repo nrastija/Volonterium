@@ -1,7 +1,7 @@
 use axum::{Json, extract::{State, Path}, http::StatusCode};
 use crate::database::Database;
 use serde::{Deserialize, Serialize};
-use chrono::{NaiveDate};
+use chrono::NaiveDate;
 use std::sync::Arc;
 
 #[derive(Serialize, Debug)]

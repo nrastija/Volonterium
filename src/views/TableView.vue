@@ -29,7 +29,7 @@
             <input 
               v-model="selectedRow[key]" 
               :id="key"
-              :readonly="key.includes('id') || key.includes('datum_pridruzivanja')" 
+              :readonly="key === 'id' || key === 'datum_pridruzivanja'" 
             />
           </div>
           <div class="modal-actions">
@@ -95,11 +95,18 @@ export default {
     },
     async updateRow() {
       try {
+        
         if (this.selectedRow.datum_vrijeme) {
           if (!this.selectedRow.datum_vrijeme.includes("T")) {
             this.selectedRow.datum_vrijeme = this.selectedRow.datum_vrijeme.replace(" ", "T");
           }
         }
+
+        if (this.selectedRow.id_drzava){
+          this.selectedRow.id_drzava = parseInt(this.selectedRow.id_drzava);
+        }
+
+
         const response = await fetch(`${this.apiEndpoint}/${this.selectedRow.id}`, {
           method: "PUT",
           headers: {

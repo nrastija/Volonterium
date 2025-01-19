@@ -445,6 +445,33 @@ impl Database {
         Ok(())
     }
 
+    pub async fn update_grad(&self, id: i32, naziv: String, id_drzava: i32) -> Result<()> {
+        let conn = self.conn.lock().await;
+                
+        let naziv_clone = naziv.clone();
+        let id_drzava_clone = id_drzava.clone();
+
+        let mut stmt = conn.prepare("UPDATE grad SET naziv = ?, id_drzava = ? WHERE id = ?")?;
+        
+        stmt.execute((naziv, id_drzava, id))?;
+    
+        println!("Ažuriran zapis u tablici grad: id={}, naziv={}, id_drzava={}", id, naziv_clone, id_drzava_clone);
+    
+        Ok(())
+    }
+
+    pub async fn delete_grad(&self, id: i32) -> Result<()> {
+        let conn = self.conn.lock().await;
+    
+        let mut stmt = conn.prepare("DELETE FROM grad WHERE id = ?")?;
+    
+        stmt.execute((id,))?;
+    
+        println!("Obrisan zapis iz tablice grad: id={}", id);
+    
+        Ok(())
+    }  
+
     /* Tablica Lokacija */
     pub async fn get_lokacija_values(&self) -> Result<Vec<Lokacija>> {
         let conn = self.conn.lock().await;
