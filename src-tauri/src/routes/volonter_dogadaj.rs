@@ -44,7 +44,7 @@ pub async fn put_volonter_dogadaj(
     db.update_volonter_dogadaj(id_volonter, id_dogadaj, new_dogadaj.status, new_dogadaj.broj_sati)
         .await
         .map_err(|err| {
-            eprintln!("Error updating volonter_vjestina: {:?}", err);
+            eprintln!("Error updating volonter_dogadaj: {:?}", err);
             StatusCode::INTERNAL_SERVER_ERROR
         })
 }
@@ -56,7 +56,7 @@ pub async fn delete_volonter_dogadaj(
     db.delete_volonter_dogadaj(id_volonter, id_dogadaj)
         .await
         .map_err(|err| {
-            eprintln!("Error deleting volonter_vjestina: {:?}", err);
+            eprintln!("Error deleting volonter_dogadaj: {:?}", err);
             StatusCode::INTERNAL_SERVER_ERROR
         })
 }

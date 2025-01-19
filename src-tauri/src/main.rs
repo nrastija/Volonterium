@@ -10,7 +10,7 @@ use routes::drzava; use routes::organizator; use routes::dogadaj; use routes::vo
 // -- Rute za slozene tablice u bazi --
 use routes::grad; use routes::lokacija; use routes::dogadaj_organizator; use routes::volonter_vjestina; use routes::volonter_dogadaj; use routes::povratna_informacija;
 
-use axum::{http::{header, Method}, routing::get, routing::put, Router};
+use axum::{http::{header, Method}, routing::get, routing::put, routing::delete, Router};
 use database::Database;
 use std::sync::Arc;
 use std::net::SocketAddr;
@@ -70,6 +70,7 @@ async fn main() {
         .route("/api/volonter-dogadaj/:id_volonter/:id_dogadaj", put(volonter_dogadaj::put_volonter_dogadaj).delete(volonter_dogadaj::delete_volonter_dogadaj))
 
         .route("/api/povratna-informacija", get( povratna_informacija::get_povratna_informacija).post(povratna_informacija::post_povratna_informacija))
+        .route("/api/povratna-informacija/:id_volonter/:id_dogadaj", delete(povratna_informacija::delete_povratna_informacija))//.put(povratna_informacija::put_povratna_informacija)
         .with_state(db.clone())
         .layer(
             CorsLayer::new()

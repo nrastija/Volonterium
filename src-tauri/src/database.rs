@@ -810,4 +810,28 @@ impl Database {
             }
         }
     }
+
+    pub async fn update_povratna_informacija(
+        &self, 
+        id_volonter: i32, 
+        id_dogadaj: i32,
+        ocjena: i32,
+        komentar: String,
+    ) -> Result<()> {
+        let conn = self.conn.lock().await;
+        conn.execute(
+            "UPDATE povratna_informacija SET ocjena = ?, komentar = ? WHERE id_volonter = ? AND id_dogadaj = ?",
+            (ocjena, komentar, id_volonter, id_dogadaj),
+        )?;
+        Ok(())
+    }
+    
+    pub async fn delete_povratna_informacija(&self, id_volonter: i32, id_dogadaj: i32) -> Result<()> {
+        let conn = self.conn.lock().await;
+        conn.execute(
+            "DELETE FROM povratna_informacija WHERE id_volonter = ? AND id_dogadaj = ?",
+            (id_volonter, id_dogadaj),
+        )?;
+        Ok(())
+    }
 }
