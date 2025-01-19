@@ -586,6 +586,31 @@ impl Database {
         Ok(())
     }
 
+    pub async fn update_dogadaj_organizator(
+        &self, 
+        id_dogadaj: i32, 
+        id_organizator: i32,
+        id_lokacija: i32,
+        uloga: String,
+        komentar: String,
+    ) -> Result<()> {
+        let conn = self.conn.lock().await;
+        conn.execute(
+            "UPDATE dogadaj_organizator SET uloga = ?, komentar = ? WHERE id_dogadaj = ? AND id_organizator = ? AND id_lokacija = ?",
+            (uloga, komentar, id_dogadaj, id_organizator, id_lokacija),
+        )?;
+        Ok(())
+    }
+    
+    pub async fn delete_dogadaj_organizator(&self, id_dogadaj: i32, id_organizator: i32, id_lokacija: i32) -> Result<()> {
+        let conn = self.conn.lock().await;
+        conn.execute(
+            "DELETE FROM dogadaj_organizator WHERE id_dogadaj = ? AND id_organizator = ? AND id_lokacija = ?",
+            (id_dogadaj, id_organizator, id_lokacija),
+        )?;
+        Ok(())
+    }
+    
     /* Tablica volonter_vjestina */
     pub async fn get_volonter_vjestina_values(&self) -> Result<Vec<VolonterVjestina>> {
         let conn = self.conn.lock().await;

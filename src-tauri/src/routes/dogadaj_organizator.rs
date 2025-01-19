@@ -1,4 +1,4 @@
-use axum::{Json, extract::State, http::StatusCode};
+use axum::{Json, extract::{State, Path}, http::StatusCode};
 use crate::database::Database;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
@@ -35,4 +35,30 @@ pub async fn post_dogadaj(
         Ok(_) => StatusCode::CREATED,
         Err(_) => StatusCode::INTERNAL_SERVER_ERROR,
     }
+}
+
+
+pub async fn put_dogadaj_organizator(
+    State(db): State<Arc<Database>>,
+    Path((id_dogadaj, id_organizator, id_lokacija)): Path<(i32, i32, i32)>,
+    Json(updated_data): Json<DogadajOrganizator>,
+) -> Result<(), StatusCode> {
+    db.update_dogadaj_organizator(id_dogadaj, id_organizator, id_lokacija, updated_data.uloga, updated_data.komentar)
+        .await
+        .map_err(|err| {
+            eprintln!("Error updating dogadaj_organizator: {:?}", err);
+            StatusCode::INTERNAL_SERVER_ERROR
+        })
+}
+
+pub async fn delete_dogadaj_organizator(
+    State(db): State<Arc<Database>>,
+    Path((id_dogadaj, id_organizator, id_lokacija)): Path<(i32, i32, i32)>,
+) -> Result<(), StatusCode> {
+    db.delete_dogadaj_organizator(id_dogadaj, id_organizator, id_lokacija)
+        .await
+        .map_err(|err| {
+            eprintln!("Error deleting dogadaj_organizator: {:?}", err);
+            StatusCode::INTERNAL_SERVER_ERROR
+        })
 }
