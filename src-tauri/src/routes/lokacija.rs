@@ -1,4 +1,4 @@
-use axum::{Json, extract::State, http::StatusCode};
+use axum::{Json, extract::{State, Path}, http::StatusCode};
 use crate::database::Database;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
@@ -38,4 +38,30 @@ pub async fn post_lokacija(
         Ok(_) => StatusCode::CREATED,
         Err(_) => StatusCode::INTERNAL_SERVER_ERROR,
     }
+}
+
+
+pub async fn put_lokacija(
+    State(db): State<Arc<Database>>,
+    Path(id): Path<i32>,
+    Json(updated_lokacija): Json<NewLokacija>,
+) -> Result<(), StatusCode> {
+    db.update_lokacija(id, updated_lokacija.adresa, updated_lokacija.id_grad)
+        .await
+        .map_err(|err| {
+            eprintln!("Error updating grad: {:?}", err);
+            StatusCode::INTERNAL_SERVER_ERROR
+        })
+}
+
+pub async fn delete_lokacija(
+    State(db): State<Arc<Database>>,
+    Path(id): Path<i32>,
+) -> Result<(), StatusCode> {
+    db.delete_lokacija(id)
+        .await
+        .map_err(|err| {
+            eprintln!("Error deleting grad: {:?}", err);
+            StatusCode::INTERNAL_SERVER_ERROR
+        })
 }

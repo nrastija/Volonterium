@@ -510,6 +510,35 @@ impl Database {
 
         Ok(())
     }
+
+    pub async fn update_lokacija(&self, id: i32, adresa: String, id_grad: i32) -> Result<()> {
+        let conn = self.conn.lock().await;
+                
+        let adresa_clone = adresa.clone();
+        let id_grad_clone = id_grad.clone();
+
+        let mut stmt = conn.prepare("UPDATE lokacija SET adresa = ?, id_grad = ? WHERE id = ?")?;
+        
+        stmt.execute((adresa, id_grad, id))?;
+    
+        println!("Ažuriran zapis u tablici grad: id={}, adresa={}, id_grad={}", id, adresa_clone, id_grad_clone);
+    
+        Ok(())
+    }
+
+    pub async fn delete_lokacija(&self, id: i32) -> Result<()> {
+        let conn = self.conn.lock().await;
+    
+        let mut stmt = conn.prepare("DELETE FROM lokacija WHERE id = ?")?;
+    
+        stmt.execute((id,))?;
+    
+        println!("Obrisan zapis iz tablice grad: id={}", id);
+    
+        Ok(())
+    }  
+
+
     /* Tablica dogadaj_organizator */
     pub async fn get_dogadaj_organizator_values(&self) -> Result<Vec<DogadajOrganizator>> {
         let conn = self.conn.lock().await;
