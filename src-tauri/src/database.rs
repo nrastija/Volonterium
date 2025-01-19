@@ -652,6 +652,29 @@ impl Database {
         Ok(())
     }
 
+    pub async fn update_volonter_vjestina(
+        &self, 
+        id_volonter: i32, 
+        id_vjestina: i32,
+        razina: String,
+    ) -> Result<()> {
+        let conn = self.conn.lock().await;
+        conn.execute(
+            "UPDATE volonter_vjestina SET razina_vjestine = ? WHERE id_volonter = ? AND id_vjestina = ?",
+            (razina, id_volonter, id_vjestina),
+        )?;
+        Ok(())
+    }
+    
+    pub async fn delete_volonter_vjestina(&self, id_volonter: i32, id_vjestina: i32) -> Result<()> {
+        let conn = self.conn.lock().await;
+        conn.execute(
+            "DELETE FROM volonter_vjestina WHERE id_volonter = ? AND id_vjestina = ?",
+            (id_volonter, id_vjestina),
+        )?;
+        Ok(())
+    }
+
     /* Tablica volonter_dogadaj */
     pub async fn get_volonter_dogadaj_values(&self) -> Result<Vec<VolonterDogadaj>> {
         let conn = self.conn.lock().await;

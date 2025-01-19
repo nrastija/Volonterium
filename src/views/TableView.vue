@@ -148,6 +148,11 @@ export default {
         this.selectedRow.hasOwnProperty("id_lokacija")
       ) {
         return `${this.apiEndpoint}/${this.selectedRow.id_dogadaj}/${this.selectedRow.id_organizator}/${this.selectedRow.id_lokacija}`;
+      } else if (
+        this.selectedRow.hasOwnProperty("id_volonter") &&
+        this.selectedRow.hasOwnProperty("id_vjestina") 
+      ){
+         return `${this.apiEndpoint}/${this.selectedRow.id_volonter}/${this.selectedRow.id_vjestina}`;
       } else {
         // Standardna putanja ako je jednostavna tablica s primarnim ključem id
         return `${this.apiEndpoint}/${this.selectedRow.id}`;
