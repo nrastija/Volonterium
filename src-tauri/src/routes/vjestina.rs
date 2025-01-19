@@ -1,4 +1,4 @@
-use axum::{Json, extract::State, http::StatusCode};
+use axum::{Json, extract::{State, Path}, http::StatusCode};
 use crate::database::Database;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
@@ -38,4 +38,29 @@ pub async fn post_vjestina(
         Ok(_) => StatusCode::CREATED,
         Err(_) => StatusCode::INTERNAL_SERVER_ERROR,
     }
+}
+
+pub async fn put_vjestina(
+    State(db): State<Arc<Database>>,
+    Path(id): Path<i32>,
+    Json(updated_vjestina): Json<NewVjestina>,
+) -> Result<(), StatusCode> {
+    db.update_vjestina(id, updated_vjestina.naziv, updated_vjestina.opis)
+        .await
+        .map_err(|err| {
+            eprintln!("Error updating vjestina: {:?}", err);
+            StatusCode::INTERNAL_SERVER_ERROR
+        })
+}
+
+pub async fn delete_vjestina(
+    State(db): State<Arc<Database>>,
+    Path(id): Path<i32>,
+) -> Result<(), StatusCode> {
+    db.delete_vjestina(id)
+        .await
+        .map_err(|err| {
+            eprintln!("Error deleting vjestina: {:?}", err);
+            StatusCode::INTERNAL_SERVER_ERROR
+        })
 }

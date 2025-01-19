@@ -378,6 +378,33 @@ impl Database {
         Ok(())
     }
     
+    pub async fn update_vjestina(&self, id: i32, naziv: String, opis: String) -> Result<()> {
+        let conn = self.conn.lock().await;
+                
+        let naziv_clone = naziv.clone();
+        let opis_clone = opis.clone();
+
+        let mut stmt = conn.prepare("UPDATE vjestina SET naziv = ?, opis = ? WHERE id = ?")?;
+        
+        stmt.execute((naziv, opis, id))?;
+    
+        println!("Ažuriran zapis u tablici vjestina: id={}, naziv={}, opis={}", id, naziv_clone, opis_clone);
+    
+        Ok(())
+    }
+
+    pub async fn delete_vjestina(&self, id: i32) -> Result<()> {
+        let conn = self.conn.lock().await;
+    
+        let mut stmt = conn.prepare("DELETE FROM vjestina WHERE id = ?")?;
+    
+        stmt.execute((id,))?;
+    
+        println!("Obrisan zapis iz tablice vjestina: id={}", id);
+    
+        Ok(())
+    }  
+
     /* ------------------------------- SLOZENE TABLICE U BAZI ------------------------------- */
     /* Tablica Grad */
     pub async fn get_grad_value(&self) -> Result<Vec<Grad>> {
