@@ -13,7 +13,7 @@
           <td v-for="(value, key) in row" :key="key">{{ value }}</td>
           <td>
             <button @click="editRow(row)">Ažuriraj</button>
-            <button @click="deleteRow(row.id)">Obriši</button>
+            <button @click="deleteRow(row)">Obriši</button>
           </td>
         </tr>
       </tbody>
@@ -72,16 +72,20 @@ export default {
         console.error("Greška:", error);
       }
     },
-    async deleteRow(id) {
+    async deleteRow(row) {
+      this.selectedRow = { ...row };
       if (!confirm("Jeste li sigurni da želite obrisati zapis?")) return;
 
       try {
-        const response = await fetch(`${this.apiEndpoint}/${id}`, {
+        let url = this.urlChooser();
+
+        const response = await fetch(url, {
           method: "DELETE",
         });
+
         if (response.ok) {
           alert("Zapis uspješno obrisan.");
-          this.fetchData(); // Osvježi tablicu
+          this.fetchData();
         } else {
           console.error("Greška prilikom brisanja zapisa.");
         }
@@ -89,6 +93,7 @@ export default {
         console.error("Greška:", error);
       }
     },
+
     editRow(row) {
       this.selectedRow = { ...row }; // Kopiraj podatke retka
       this.showModal = true; // Prikaži modal
@@ -96,24 +101,29 @@ export default {
     async updateRow() {
       try {
         
+        Object.keys(this.selectedRow).forEach(key => {
+          if (key.startsWith("id_") && key !== "id") {
+            this.selectedRow[key] = parseInt(this.selectedRow[key]);
+          }
+        });
+
         if (this.selectedRow.datum_vrijeme) {
           if (!this.selectedRow.datum_vrijeme.includes("T")) {
             this.selectedRow.datum_vrijeme = this.selectedRow.datum_vrijeme.replace(" ", "T");
           }
         }
 
-        if (this.selectedRow.id_drzava){
-          this.selectedRow.id_drzava = parseInt(this.selectedRow.id_drzava);
-        }
+        var url = this.urlChooser();
 
 
-        const response = await fetch(`${this.apiEndpoint}/${this.selectedRow.id}`, {
+        const response = await fetch(url, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(this.selectedRow),
         });
+
         if (response.ok) {
           alert("Zapis uspješno ažuriran.");
           this.fetchData(); 
@@ -125,10 +135,24 @@ export default {
         console.error("Greška:", error);
       }
     },
+
     closeModal() {
       this.showModal = false;
       this.selectedRow = null;
     },
+
+    urlChooser(){
+      if (
+        this.selectedRow.hasOwnProperty("id_dogadaj") &&
+        this.selectedRow.hasOwnProperty("id_organizator") &&
+        this.selectedRow.hasOwnProperty("id_lokacija")
+      ) {
+        return `${this.apiEndpoint}/${this.selectedRow.id_dogadaj}/${this.selectedRow.id_organizator}/${this.selectedRow.id_lokacija}`;
+      } else {
+        // Standardna putanja ako je jednostavna tablica s primarnim ključem id
+        return `${this.apiEndpoint}/${this.selectedRow.id}`;
+      }
+    }
   },
 };
 </script>

@@ -596,7 +596,7 @@ impl Database {
     ) -> Result<()> {
         let conn = self.conn.lock().await;
         conn.execute(
-            "UPDATE dogadaj_organizator SET uloga = ?, komentar = ? WHERE id_dogadaj = ? AND id_organizator = ? AND id_lokacija = ?",
+            "UPDATE dogadaj_organizator SET uloga_organizatora = ?, komentar = ? WHERE id_dogadaj = ? AND id_organizator = ? AND id_lokacija = ?",
             (uloga, komentar, id_dogadaj, id_organizator, id_lokacija),
         )?;
         Ok(())

@@ -61,7 +61,7 @@ async fn main() {
         .route("/api/lokacija/:id", put(lokacija::put_lokacija).delete(lokacija::delete_lokacija))
 
         .route("/api/dogadaj-organizator", get(dogadaj_organizator::get_dogadaj_organizator).post(dogadaj_organizator::post_dogadaj))
-        .route("/api/dogadaj-organizator/:id_dogadaj", put(dogadaj_organizator::put_dogadaj_organizator).delete(dogadaj_organizator::delete_dogadaj_organizator))
+        .route("/api/dogadaj-organizator/:id_dogadaj/:id_organizator/:id_lokacija", put(dogadaj_organizator::put_dogadaj_organizator).delete(dogadaj_organizator::delete_dogadaj_organizator))
 
         .route("/api/volonter-vjestina", get(volonter_vjestina::get_volonter_vjestina).post(volonter_vjestina::post_volonter_vjestina))
         .route("/api/volonter-dogadaj", get(volonter_dogadaj::get_volonter_dogadaj).post(volonter_dogadaj::post_volonter_dogadaj))
