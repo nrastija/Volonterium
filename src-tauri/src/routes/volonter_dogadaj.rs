@@ -1,4 +1,4 @@
-use axum::{Json, extract::State, http::StatusCode};
+use axum::{Json, extract::{State, Path}, http::StatusCode};
 use crate::database::Database;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
@@ -34,4 +34,29 @@ pub async fn post_volonter_dogadaj(
         Ok(_) => StatusCode::CREATED,
         Err(_) => StatusCode::INTERNAL_SERVER_ERROR,
     }
+}
+
+pub async fn put_volonter_dogadaj(
+    State(db): State<Arc<Database>>,
+    Path((id_volonter, id_dogadaj)): Path<(i32, i32)>,
+    Json(new_dogadaj): Json<VolonterDogadaj>,
+) -> Result<(), StatusCode> {
+    db.update_volonter_dogadaj(id_volonter, id_dogadaj, new_dogadaj.status, new_dogadaj.broj_sati)
+        .await
+        .map_err(|err| {
+            eprintln!("Error updating volonter_vjestina: {:?}", err);
+            StatusCode::INTERNAL_SERVER_ERROR
+        })
+}
+
+pub async fn delete_volonter_dogadaj(
+    State(db): State<Arc<Database>>,
+    Path((id_volonter, id_dogadaj)): Path<(i32, i32)>,
+) -> Result<(), StatusCode> {
+    db.delete_volonter_dogadaj(id_volonter, id_dogadaj)
+        .await
+        .map_err(|err| {
+            eprintln!("Error deleting volonter_vjestina: {:?}", err);
+            StatusCode::INTERNAL_SERVER_ERROR
+        })
 }

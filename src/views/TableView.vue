@@ -107,6 +107,10 @@ export default {
           }
         });
 
+        if (this.selectedRow.broj_sati) {
+          this.selectedRow.broj_sati = parseInt(this.selectedRow.broj_sati);
+        }
+
         if (this.selectedRow.datum_vrijeme) {
           if (!this.selectedRow.datum_vrijeme.includes("T")) {
             this.selectedRow.datum_vrijeme = this.selectedRow.datum_vrijeme.replace(" ", "T");
@@ -148,13 +152,19 @@ export default {
         this.selectedRow.hasOwnProperty("id_lokacija")
       ) {
         return `${this.apiEndpoint}/${this.selectedRow.id_dogadaj}/${this.selectedRow.id_organizator}/${this.selectedRow.id_lokacija}`;
-      } else if (
-        this.selectedRow.hasOwnProperty("id_volonter") &&
-        this.selectedRow.hasOwnProperty("id_vjestina") 
-      ){
+      } 
+      else if (this.selectedRow.hasOwnProperty("id_volonter") && this.selectedRow.hasOwnProperty("id_vjestina"))
+      {
          return `${this.apiEndpoint}/${this.selectedRow.id_volonter}/${this.selectedRow.id_vjestina}`;
-      } else {
-        // Standardna putanja ako je jednostavna tablica s primarnim ključem id
+      } 
+      
+      else if ( this.selectedRow.hasOwnProperty("id_volonter") && this.selectedRow.hasOwnProperty("id_dogadaj"))
+      {
+         return `${this.apiEndpoint}/${this.selectedRow.id_volonter}/${this.selectedRow.id_dogadaj}`;
+      }
+    
+      else 
+      {
         return `${this.apiEndpoint}/${this.selectedRow.id}`;
       }
     }

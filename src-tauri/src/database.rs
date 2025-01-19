@@ -719,6 +719,30 @@ impl Database {
         Ok(())
     }
 
+    pub async fn update_volonter_dogadaj(
+        &self, 
+        id_volonter: i32, 
+        id_dogadaj: i32,
+        status: String,
+        broj_sati: i32,
+    ) -> Result<()> {
+        let conn = self.conn.lock().await;
+        conn.execute(
+            "UPDATE volonter_dogadaj SET status = ?, broj_sati = ? WHERE id_volonter = ? AND id_dogadaj = ?",
+            (status, broj_sati, id_volonter, id_dogadaj),
+        )?;
+        Ok(())
+    }
+    
+    pub async fn delete_volonter_dogadaj(&self, id_volonter: i32, id_dogadaj: i32) -> Result<()> {
+        let conn = self.conn.lock().await;
+        conn.execute(
+            "DELETE FROM volonter_dogadaj WHERE id_volonter = ? AND id_dogadaj = ?",
+            (id_volonter, id_dogadaj),
+        )?;
+        Ok(())
+    }
+
     /* Tablica povratna_informacija */
     pub async fn get_povratna_informacija_values(&self) -> Result<Vec<PovratnaInformacija>> {
         let conn = self.conn.lock().await;

@@ -67,6 +67,8 @@ async fn main() {
         .route("/api/volonter-vjestina/:id_volonter/:id_vjestina", put(volonter_vjestina::put_volonter_vjestina).delete(volonter_vjestina::delete_volonter_vjestina))
 
         .route("/api/volonter-dogadaj", get(volonter_dogadaj::get_volonter_dogadaj).post(volonter_dogadaj::post_volonter_dogadaj))
+        .route("/api/volonter-dogadaj/:id_volonter/:id_dogadaj", put(volonter_dogadaj::put_volonter_dogadaj).delete(volonter_dogadaj::delete_volonter_dogadaj))
+
         .route("/api/povratna-informacija", get( povratna_informacija::get_povratna_informacija).post(povratna_informacija::post_povratna_informacija))
         .with_state(db.clone())
         .layer(
