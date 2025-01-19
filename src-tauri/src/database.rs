@@ -310,6 +310,35 @@ impl Database {
         Ok(())
     }
 
+    pub async fn update_volonter(&self, id: i32, ime: String, prezime: String, mail: String, telefon: String) -> Result<()> {
+        let conn = self.conn.lock().await;
+                
+        let ime_clone = ime.clone();
+        let prezime_clone = prezime.clone();
+        let mail_clone = mail.clone();
+        let telefon_clone = telefon.clone();
+
+        let mut stmt = conn.prepare("UPDATE volonter SET ime = ?, prezime = ?, mail = ?, telefon = ? WHERE id = ?")?;
+        
+        stmt.execute((ime, prezime, mail, telefon, id))?;
+    
+        println!("Ažuriran zapis u tablici volonter: id={}, ime={}, prezime={}, telefon={}, mail={},", id, ime_clone, prezime_clone, telefon_clone, mail_clone);
+    
+        Ok(())
+    }
+
+    pub async fn delete_volonter(&self, id: i32) -> Result<()> {
+        let conn = self.conn.lock().await;
+    
+        let mut stmt = conn.prepare("DELETE FROM volonter WHERE id = ?")?;
+    
+        stmt.execute((id,))?;
+    
+        println!("Obrisan zapis iz tablice volonter: id={}", id);
+    
+        Ok(())
+    }  
+
     /* Tablica Vjestina */
     pub async fn get_vjestina_values(&self) -> Result<Vec<Vjestina>> {
         let conn = self.conn.lock().await;

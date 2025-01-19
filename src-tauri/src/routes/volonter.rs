@@ -1,4 +1,4 @@
-use axum::{Json, extract::State, http::StatusCode};
+use axum::{Json, extract::{State, Path}, http::StatusCode};
 use crate::database::Database;
 use serde::{Deserialize, Serialize};
 use chrono::{NaiveDate};
@@ -45,4 +45,29 @@ pub async fn post_volonter(
         Ok(_) => StatusCode::CREATED,
         Err(_) => StatusCode::INTERNAL_SERVER_ERROR,
     }
+}
+
+pub async fn put_volonter(
+    State(db): State<Arc<Database>>,
+    Path(id): Path<i32>,
+    Json(updated_volonter): Json<NewVolonter>,
+) -> Result<(), StatusCode> {
+    db.update_volonter(id, updated_volonter.ime, updated_volonter.prezime, updated_volonter.mail, updated_volonter.telefon)
+        .await
+        .map_err(|err| {
+            eprintln!("Error updating volonter: {:?}", err);
+            StatusCode::INTERNAL_SERVER_ERROR
+        })
+}
+
+pub async fn delete_volonter(
+    State(db): State<Arc<Database>>,
+    Path(id): Path<i32>,
+) -> Result<(), StatusCode> {
+    db.delete_volonter(id)
+        .await
+        .map_err(|err| {
+            eprintln!("Error deleting volonter: {:?}", err);
+            StatusCode::INTERNAL_SERVER_ERROR
+        })
 }

@@ -49,6 +49,8 @@ async fn main() {
         .route("/api/dogadaj/:id", put(dogadaj::put_dogadaj).delete(dogadaj::delete_dogadaj))
 
         .route("/api/volonter", get(volonter::get_volonter).post(volonter::post_volonter))
+        .route("/api/volonter/:id", put(volonter::put_volonter).delete(volonter::delete_volonter))
+
         .route("/api/vjestina", get(vjestina::get_vjestina).post(vjestina::post_vjestina))
         .route("/api/grad", get(grad::get_grad).post(grad::post_grad))
         .route("/api/lokacija", get(lokacija::get_lokacija).post(lokacija::post_lokacija))
