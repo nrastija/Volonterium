@@ -26,7 +26,11 @@
         <form @submit.prevent="updateRow">
           <div v-for="(value, key) in selectedRow" :key="key" class="form-group">
             <label :for="key">{{ key }}</label>
-            <input v-model="selectedRow[key]" :id="key" />
+            <input 
+              v-model="selectedRow[key]" 
+              :id="key"
+              :readonly="key.includes('id') || key.includes('datum_pridruzivanja')" 
+            />
           </div>
           <div class="modal-actions">
             <button type="submit">Spremi promjene</button>
